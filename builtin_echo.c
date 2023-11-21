@@ -31,10 +31,14 @@ bool	check_n(char *word)
 
 int	builtin_echo(char **words)
 {
-	int		i;
-	bool	n_option;
+	int	i;
 
 	i = 1;
+	if (!words[1])
+	{
+		write(1, "\n", 1);
+		return (0);
+	}
 	while (words[i] && check_n(words[i]) == true)
 	{
 		i++;
@@ -57,7 +61,6 @@ int	main(void)
 {
 	char *input;
 	char **words;
-	int i;
 
 	while (1)
 	{
@@ -70,7 +73,7 @@ int	main(void)
 		else if (input[0] == '\0')
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		words = ft_split(input, ' ');
 		builtin_echo(words);
