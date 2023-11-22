@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/* Funtion to check, if the -n option is set with echo (no trailing newline after echo print) */
+
 bool	check_n(char *word)
 {
 	int	i;
@@ -27,7 +29,7 @@ bool	check_n(char *word)
 }
 
 /* it does not check if words[0] == NULL because,
-	when this function gets called, words[0] should be echo */
+	when this function gets called, words[0] should be echo. words should be the command line, separated into words */
 
 int	builtin_echo(char **words)
 {

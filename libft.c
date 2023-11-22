@@ -15,20 +15,20 @@ char *ft_strchr(char *str, int c)
     return (NULL);
 }
 
-int ft_strlen(char *str)
+size_t	ft_strlen(const char *s)
 {
-	int i;
+	const char	*p;
 
-	i = 0;
-	while(str[i])
-		i++;
-	return(i);
+	p = s;
+	while (*p)
+		++p;
+	return (p - s);
 }
 
 void ft_putstr(char *str)
 {
 	while(*str)
-		write(2, str++, 1);
+		write(1, str++, 1);
 }
 
 int ft_strcmp(const char *s1, const char *s2)
@@ -45,38 +45,64 @@ int ft_strcmp(const char *s1, const char *s2)
 	return((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-char *ft_strncpy(char *dest, const char *src, int n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int i = 0;
+	size_t	i;
 
-	while(src[i] && i < n)
-	{
-		dest[i] = src[i];
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (i < n && s1[i] && s1[i] == s2[i])
 		i++;
-	}
-	dest[i] = '\0';
-	return(dest);
+	if (i == n)
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-char *ft_strndup(const char *str, int n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	char *new_str;
-	
-	if(!str)
-	{
-		perror("ft_strndup error\n");
-		exit(1);
-	}
-	new_str = malloc(sizeof(char) * n + 1);
-	if(!new_str)
-	{
-		perror("malloc\n");
-		exit(1);
-	}
-	new_str = ft_strncpy(new_str, str, n);
-	return(new_str);
+	size_t	i;
+	size_t	len;
 
+	i = 0;
+	len = ft_strlen(src);
+	if (size != 0)
+	{
+		while (i < size - 1 && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (len);
 }
+
+char	*ft_strdup(const char *s1)
+{
+	unsigned int	len;
+	char			*str;
+
+	len = ft_strlen(s1);
+	str = malloc(len + 1);
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, len + 1);
+	return (str);
+}
+
+char	*ft_strndup(const char *s1, size_t n)
+{
+	char	*str;
+
+	str = malloc(n + 1);
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, n + 1);
+	return (str);
+}
+
+
 
 int	ft_wcount(const char *s, char c)
 {
