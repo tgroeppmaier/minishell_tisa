@@ -3,6 +3,7 @@
 
 # include <stdbool.h>
 # include <stddef.h>
+# include <sys/types.h>
 
 enum					type
 {
@@ -25,12 +26,23 @@ typedef struct s_token
 	struct s_token		*next;
 }						t_token;
 
-typedef struct s_cmd_line
+typedef struct s_command
 {
 	char				*cmd;
+	char				**args; // this should be the splitted command line into words after expansion and remove of quotes
 	t_token				*words;
-	struct s_cmd_line	*next;
-}						t_cmd_line;
+	struct s_command	*next;
+}						t_command;
+
+typedef struct s_data
+{
+	char				*user_input;
+	char				**envp;
+	char				*working_dir;
+	char				*old_working_dir;
+	t_command			*cmd;
+	pid_t				pid;
+}						t_data;
 
 /* 		libft.c			*/
 char					*ft_strchr(char *str, int c);
@@ -45,16 +57,17 @@ char					*ft_strndup(const char *s1, size_t n);
 size_t					ft_strlcpy(char *dst, const char *src, size_t size);
 
 /* 		cmd_list.c			*/
-void					new_cmdl_node(t_cmd_line **node, char *cmdl);
-void					print_list(t_cmd_line *node);
-void					free_cmd_list(t_cmd_line *head);
+void					new_cmdl_node(t_command **node, char *cmdl);
+void					print_list(t_command *node);
+void					free_cmd_list(t_command *head);
 
 /*      word_list.c */
 void					new_word_node(t_token **node, char *word);
 void					print_word_list(t_token *node);
 
 /*      builtin_env */
-char	**copy_environ(char **envp);
-int	free_envp(char **envp);
+char					**copy_environ(char **envp);
+int	free_envp(t_data *data);
+int	count_env(char **envp);
 
 #endif

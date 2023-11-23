@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-t_cmd_line	*ft_lstlast(t_cmd_line *lst)
+t_command	*ft_lstlast(t_command *lst)
 {
-	t_cmd_line	*tmp;
+	t_command	*tmp;
 
 	if (!lst)
 		return (NULL);
@@ -15,9 +15,9 @@ t_cmd_line	*ft_lstlast(t_cmd_line *lst)
 	return (tmp);
 }
 
-void	ft_lstadd_back(t_cmd_line **lst, t_cmd_line *new)
+void	ft_lstadd_back(t_command **lst, t_command *new)
 {
-	t_cmd_line	*tmp;
+	t_command	*tmp;
 
 	if (!lst || !new)
 		return ;
@@ -30,11 +30,11 @@ void	ft_lstadd_back(t_cmd_line **lst, t_cmd_line *new)
 	tmp->next = new;
 }
 
-t_cmd_line	*ft_lstnew(void *content)
+t_command	*ft_lstnew(void *content)
 {
-	t_cmd_line	*s1;
+	t_command	*s1;
 
-	s1 = malloc(sizeof(t_cmd_line));
+	s1 = malloc(sizeof(t_command));
 	if (!s1)
 		return (NULL);
 	s1->cmd = content;
@@ -42,7 +42,7 @@ t_cmd_line	*ft_lstnew(void *content)
 	return (s1);
 }
 
-void print_list(t_cmd_line *node)
+void print_list(t_command *node)
 {
 	int i = 1;
 
@@ -54,10 +54,10 @@ void print_list(t_cmd_line *node)
 	}
 }
 
-void free_cmd_list(t_cmd_line *head)
+void free_cmd_list(t_command *head)
 {
-    t_cmd_line *tmp;
-	t_cmd_line *save = head;
+    t_command *tmp;
+	t_command *save = head;
 
     while (head != NULL)
 	{
@@ -69,9 +69,9 @@ void free_cmd_list(t_cmd_line *head)
 	// free(save);
 }
 
-void new_cmdl_node(t_cmd_line **node, char *cmdl)
+void new_cmdl_node(t_command **node, char *cmdl)
 {
-    t_cmd_line *new;
+    t_command *new;
 
     if (node == NULL) {
         return;

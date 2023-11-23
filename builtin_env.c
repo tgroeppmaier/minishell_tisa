@@ -23,19 +23,20 @@ int	count_env(char **envp)
 	return (i);
 }
 
-int	free_envp(char **envp)
+int	free_envp(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	if (!envp)
+	if (!data->envp)
 		return (1);
-	while (envp[i])
+	while (data->envp[i])
 	{
-		free(envp[i]);
+		free(data->envp[i]);
 		i++;
 	}
-	free(envp);
+	free(data->envp);
+	// data->envp = NULL;
 	return (0);
 }
 
@@ -46,7 +47,7 @@ char	**copy_environ(char **envp)
 	int i = 0;
 	char	**new_envp;
 
-	new_envp = malloc((count_env(envp) + 1) * sizeof(char *));
+	new_envp = (char **)malloc((count_env(envp) + 1) * sizeof(char *));
 	while(envp[i])
 	{
 		new_envp[i] = ft_strdup(envp[i]);
@@ -72,7 +73,7 @@ void builtin_env(char **envp)
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+/* int main(int argc, char **argv, char **envp)
 {
 	char *var;
 	char *args[] = {"/usr/bin/ls", "-la", NULL};
@@ -86,7 +87,7 @@ int main(int argc, char **argv, char **envp)
 	free_envp(new_envp);
 	// execve(args[0], args, envp);
 	return(0);
-}
+} */
 
 // char *get_env_var_value(char *var, char **env)
 // {

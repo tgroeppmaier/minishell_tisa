@@ -93,7 +93,7 @@ bool in_quotes(int n, char *input)
 // 	}
 // }
 
-void create_cmd_line(t_cmd_line **cmd, char *input) 
+void create_cmd_line(t_command **cmd, char *input) 
 {
     int start = 0;  // Start index for each segment
     int i = 0;      // Current index in input
@@ -206,7 +206,7 @@ char *get_next_word(char *cmd_line)
 
 /* takes command list and generates word list, separating by whitespace and < > <<  */
 
-void create_word_list(t_token **words, t_cmd_line *commands)
+void create_word_list(t_token **words, t_command *commands)
 {
 	int start 	= 0;
 	int i 		= 0;
@@ -226,7 +226,7 @@ void create_word_list(t_token **words, t_cmd_line *commands)
 }
 
 
-// char *ft_getline(t_cmd_line *cmd, char *input)
+// char *ft_getline(t_command *cmd, char *input)
 // {
 // 	input = readline("\033[32mshelly $ \033[0m");
 // 	if(input != NULL)
@@ -244,7 +244,7 @@ int main()
 	char *token;
 	char *path = getenv("PATH");
 	extern char **environ;
-	t_cmd_line *commands = NULL;
+	t_command *commands = NULL;
 	// t_token		*words = NULL;
 	
 	while (1)
