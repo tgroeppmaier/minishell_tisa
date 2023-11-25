@@ -1,0 +1,25 @@
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+NAME = minishell_builtins
+LIBS = -lreadline
+SRC = main_builtin_test.c builtin_export.c libft.c builtin_env.c 
+OBJ = $(SRC:.c=.o)
+HEADER = minishell.h
+
+.PHONY: all clean fclean re
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) -o $@ $(LIBS)
+
+%.o: %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJ)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all

@@ -69,7 +69,14 @@ void					print_word_list(t_token *node);
 
 /*      builtin_env */
 char					**copy_environ(char **envp);
-int	free_envp(t_data *data);
+void free_envp(char ***envp);
+void builtin_env(char **envp, t_data *data);
+
+/* 		builtin_export */
+bool	builtin_export(char **args, t_data *data);
+void	free_data_args(t_data *data);
+bool	print_export(char **envp);
+
 int	count_env(char **envp);
 
 #endif
