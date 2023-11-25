@@ -28,7 +28,7 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	char				*cmd;
+	char				*cmd;   // the whole command line until pipe
 	char				**args; // this should be the splitted command line into words after expansion and remove of quotes
 	t_token				*words;
 	struct s_command	*next;
@@ -40,6 +40,7 @@ typedef struct s_data
 	char				**envp;
 	char				*working_dir;
 	char				*old_working_dir;
+	int					exit_code;
 	t_command			*cmd;
 	pid_t				pid;
 }						t_data;
@@ -55,7 +56,8 @@ char					*ft_strncpy(char *dest, const char *src, int n);
 char					*ft_strdup(const char *s1);
 char					*ft_strndup(const char *s1, size_t n);
 size_t					ft_strlcpy(char *dst, const char *src, size_t size);
-
+bool ft_isalpha(int c);
+bool ft_isdigit(int c);
 /* 		cmd_list.c			*/
 void					new_cmdl_node(t_command **node, char *cmdl);
 void					print_list(t_command *node);

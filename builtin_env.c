@@ -9,7 +9,7 @@
 /* functions to change, or get data from the environment variables. We replace the env at the start of minishell
 with dynamically allocated memory to change and free it later without issues. */
 
-extern char	**environ; // we have to check, if we can use this approach to retriev env variables
+// extern char	**environ; // we have to check, if we can use this approach to retriev env variables
 
 int	count_env(char **envp)
 {
@@ -22,6 +22,11 @@ int	count_env(char **envp)
 	}
 	return (i);
 }
+
+// int get_var_index(char *var_name, char **envp)
+// {
+	
+// }
 
 int	free_envp(t_data *data)
 {
@@ -36,7 +41,7 @@ int	free_envp(t_data *data)
 		i++;
 	}
 	free(data->envp);
-	// data->envp = NULL;
+	data->envp = NULL;
 	return (0);
 }
 
@@ -48,9 +53,21 @@ char	**copy_environ(char **envp)
 	char	**new_envp;
 
 	new_envp = (char **)malloc((count_env(envp) + 1) * sizeof(char *));
+	if(!new_envp)
+		return(NULL);
 	while(envp[i])
 	{
 		new_envp[i] = ft_strdup(envp[i]);
+		if(new_envp[i] == NULL)
+		{
+			while(i > 0)
+			{
+				i--;
+				free(new_envp[i]);
+			}
+			free(new_envp);
+			return(NULL);
+		}
 		i++;
 	}
 	new_envp[i] = NULL;
@@ -73,21 +90,21 @@ void builtin_env(char **envp)
 	}
 }
 
-/* int main(int argc, char **argv, char **envp)
-{
-	char *var;
-	char *args[] = {"/usr/bin/ls", "-la", NULL};
-	char **new_envp;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	char *var;
+// 	char *args[] = {"/usr/bin/ls", "-la", NULL};
+// 	char **new_envp;
 
-	// printf("env test: %s\n", envp[36]);
-	new_envp = copy_environ(envp);
-	builtin_env(envp);
-	// envp[36] = ft_strdup("TEST=test");
-	// printf("env test: %s\n", new_envp[36]);
-	free_envp(new_envp);
-	// execve(args[0], args, envp);
-	return(0);
-} */
+// 	// printf("env test: %s\n", envp[36]);
+// 	new_envp = copy_environ(envp);
+// 	builtin_env(envp);
+// 	// envp[36] = ft_strdup("TEST=test");
+// 	// printf("env test: %s\n", new_envp[36]);
+// 	free_envp(new_envp);
+// 	// execve(args[0], args, envp);
+// 	return(0);
+// }
 
 // char *get_env_var_value(char *var, char **env)
 // {

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 char *ft_strchr(char *str, int c)
 {
@@ -30,6 +31,23 @@ void ft_putstr(char *str)
 	while(*str)
 		write(1, str++, 1);
 }
+
+bool ft_isalpha(int c)
+{
+	if ((c > 64 && c < 91) || (c > 96 && c < 123))
+		return (true);
+	else
+		return (false);
+}
+
+bool ft_isdigit(int c)
+{
+	if ((c >= '0' && c <= '9'))
+		return (true);
+	else
+		return (false);
+}
+
 
 int ft_strcmp(const char *s1, const char *s2)
 {
