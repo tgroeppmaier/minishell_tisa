@@ -6,9 +6,11 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-void	exec_int_function(t_data *data)
+void	exec_int_function(char *input, t_data *data)
 {
-	if (strcmp(data->cmd->args[0], "export") == 0)
+	if(ft_strcmp(data->cmd->args[0], "exit") == 0)
+		builtin_exit(input, data);
+	if (ft_strcmp(data->cmd->args[0], "export") == 0)
 	{
 		if (builtin_export(data->cmd->args, data) == true) // success of function
 			data->exit_code = 0;
@@ -16,7 +18,7 @@ void	exec_int_function(t_data *data)
 			data->exit_code = 1;
 		return ;
 	}
-	if(strcmp(data->cmd->args[0], "env") == 0)
+	if(ft_strcmp(data->cmd->args[0], "env") == 0)
 	{
 		if(data->cmd->args[1] == NULL)
 			builtin_env(data->envp, data);
@@ -26,6 +28,19 @@ void	exec_int_function(t_data *data)
 			data->exit_code = 127;
 		}
 		return ;
+	}
+	if(ft_strcmp(data->cmd->args[0], "echo") == 0)
+	{
+		builtin_echo(data->cmd->args);
+		data->exit_code = 0;
+	}
+	if(ft_strcmp(data->cmd->args[0], "pwd") == 0)
+	{
+		builtin_pwd(data);
+	}
+	if(ft_strcmp(data->cmd->args[0], "cd") == 0)
+	{
+		built
 	}
 }
 
@@ -45,20 +60,15 @@ int main()
 	data.cmd = &cmd;
 	while (1)
 	{
-		input = readline("built_ins $ ");
-		if (ft_strcmp(input, "exit") == 0)
-		{
-			free(input);
-			break ;
-		}
-		else if (input[0] == '\0')
+		input = readline("run_built_in_commands $ ");
+		if (input[0] == '\0')
 		{
 			free(input);
 			continue ;
 		}
 		add_history(input);
 		data.cmd->args = ft_split(input, ' ');
-		exec_int_function(&data);
+		exec_int_function(input, &data);
 		free_data_args(&data);
 		free(input);
 	}

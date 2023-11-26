@@ -8,7 +8,7 @@
 
 /* Funtion to check, if the -n option is set with echo (no trailing newline after echo print) */
 
-bool	check_n(char *word)
+static bool	check_n(char *word)
 {
 	int	i;
 
@@ -31,55 +31,28 @@ bool	check_n(char *word)
 /* it does not check if words[0] == NULL because,
 	when this function gets called, words[0] should be echo. words should be the command line, separated into words */
 
-int	builtin_echo(char **words)
+int	builtin_echo(char **args)
 {
 	int	i;
 
 	i = 1;
-	if (!words[1])
+	if (!args[1])
 	{
 		write(1, "\n", 1);
 		return (0);
 	}
-	while (words[i] && check_n(words[i]) == true)
+	while (args[i] && check_n(args[i]) == true)
 	{
 		i++;
 	}
-	while (words[i])
+	while (args[i])
 	{
-		ft_putstr(words[i]);
+		ft_putstr(args[i]);
 		i++;
-		if (words[i])
+		if (args[i])
 			write(1, " ", 1);
 	}
-	if (check_n(words[1]) == false)
+	if (check_n(args[1]) == false)
 		write(1, "\n", 1);
-	return (0);
-}
-
-/* just for testing purposes, has leaks */
-
-int	main(void)
-{
-	char *input;
-	char **words;
-
-	while (1)
-	{
-		input = readline("built_ins $ ");
-		if (ft_strcmp(input, "exit") == 0)
-		{
-			free(input);
-			break ;
-		}
-		else if (input[0] == '\0')
-		{
-			free(input);
-			continue ;
-		}
-		words = ft_split(input, ' ');
-		builtin_echo(words);
-		add_history(input);
-	}
 	return (0);
 }

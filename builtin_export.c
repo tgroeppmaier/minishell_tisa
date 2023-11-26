@@ -76,6 +76,8 @@ void add_var(char *var_name, t_data *data)
 	data->exit_code = 0;
 }
 
+/*  returns index of given env variable, or -1 if its not found in env */
+
 int	var_index(char *var_name, char **envp)
 {
 	int	i;

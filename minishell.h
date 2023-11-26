@@ -28,19 +28,19 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	char				*cmd;   // the whole command line until pipe
-	char				**args; // this should be the splitted command line into words after expansion and remove of quotes
+	char *cmd;   // the command line until pipe
+	char **args; // this should be the splitted command line into words after expansion and remove of quotes
 	t_token				*words;
 	struct s_command	*next;
 }						t_command;
 
 typedef struct s_data
 {
-	char				*user_input;
+	char				*user_input; // the whole command line
 	char				**envp;
 	char				*working_dir;
 	char				*old_working_dir;
-	int					exit_code;
+	int					exit_code;  // last command exit code
 	t_command			*cmd;
 	pid_t				pid;
 }						t_data;
@@ -56,8 +56,8 @@ char					*ft_strncpy(char *dest, const char *src, int n);
 char					*ft_strdup(const char *s1);
 char					*ft_strndup(const char *s1, size_t n);
 size_t					ft_strlcpy(char *dst, const char *src, size_t size);
-bool ft_isalpha(int c);
-bool ft_isdigit(int c);
+bool					ft_isalpha(int c);
+bool					ft_isdigit(int c);
 /* 		cmd_list.c			*/
 void					new_cmdl_node(t_command **node, char *cmdl);
 void					print_list(t_command *node);
@@ -67,16 +67,28 @@ void					free_cmd_list(t_command *head);
 void					new_word_node(t_token **node, char *word);
 void					print_word_list(t_token *node);
 
+/* 		builtin_echo */
+int						builtin_echo(char **words);
+
 /*      builtin_env */
 char					**copy_environ(char **envp);
-void free_envp(char ***envp);
-void builtin_env(char **envp, t_data *data);
+void					free_envp(char ***envp);
+void					builtin_env(char **envp, t_data *data);
+int						count_env(char **envp);
 
 /* 		builtin_export */
-bool	builtin_export(char **args, t_data *data);
-void	free_data_args(t_data *data);
-bool	print_export(char **envp);
+bool					builtin_export(char **args, t_data *data);
+void					free_data_args(t_data *data);
+bool					print_export(char **envp);
+int	var_index(char *var_name, char **envp);
 
-int	count_env(char **envp);
+/* 		builtin_exit */
+void builtin_exit(char *input, t_data *data);
+
+/* 		builtin_pwd  */
+void builtin_pwd(t_data *data);
+
+/* 		builtin_cd */
+void builtin_cd(t_data *data);
 
 #endif
