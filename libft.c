@@ -48,7 +48,6 @@ bool ft_isdigit(int c)
 		return (false);
 }
 
-
 int ft_strcmp(const char *s1, const char *s2)
 {
 	int i;
@@ -94,6 +93,24 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		dst[i] = '\0';
 	}
 	return (len);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		len1;
+	int		len2;
+	char	*dst;
+	
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	dst = malloc(len1 + len2 + 1);
+	if (!dst)
+		return (NULL);
+	ft_strlcpy(dst, s1, len1 + 1);
+	ft_strlcpy(dst + len1, s2, len2 + 1);
+	return (dst);
 }
 
 char	*ft_strdup(const char *s1)

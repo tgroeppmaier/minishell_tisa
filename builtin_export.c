@@ -99,30 +99,6 @@ int	var_index(char *var_name, char **envp)
 	}
 	return (-1);
 }
-/* checks, if the variable already exists in env. If yes,
-	it returns the index. if not it returns -1 */
-
-bool	does_var_exist(char *var_name, char **envp)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (var_name[len])
-	{
-		if (var_name[len] == '=')
-			break ;
-		len++;
-	}
-	while (envp[i])
-	{
-		if ((ft_strncmp(var_name, envp[i], len) == 0) && envp[i][len] == '=')
-			return (true);
-		i++;
-	}
-	return (false);
-}
 
 /* variable name can only start with a-z, A-Z or '_' and can only contain a-z,
 	A-Z, 0-9 and '_'
@@ -164,8 +140,32 @@ void update_var(char *var_name, t_data *data)
 	data->exit_code = 0;
 }
 
-/* example for command: command[0] = "export", command[1] = 'VAR_NAME=value'
-	returns 0 on success, 1 on failure			*/
+
+/* checks, if the variable already exists in env. */
+
+bool	does_var_exist(char *var_name, char **envp)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	while (var_name[len])
+	{
+		if (var_name[len] == '=')
+			break ;
+		len++;
+	}
+	while (envp[i])
+	{
+		if ((ft_strncmp(var_name, envp[i], len) == 0) && envp[i][len] == '=')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+/* example for command: command[0] = "export", command[1] = 'VAR_NAME=value'  */
 
 bool	builtin_export(char **args, t_data *data)
 {

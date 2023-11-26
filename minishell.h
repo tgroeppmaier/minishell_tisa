@@ -58,6 +58,8 @@ char					*ft_strndup(const char *s1, size_t n);
 size_t					ft_strlcpy(char *dst, const char *src, size_t size);
 bool					ft_isalpha(int c);
 bool					ft_isdigit(int c);
+char	*ft_strjoin(char const *s1, char const *s2);
+
 /* 		cmd_list.c			*/
 void					new_cmdl_node(t_command **node, char *cmdl);
 void					print_list(t_command *node);
@@ -81,6 +83,8 @@ bool					builtin_export(char **args, t_data *data);
 void					free_data_args(t_data *data);
 bool					print_export(char **envp);
 int	var_index(char *var_name, char **envp);
+bool	is_valid_name(char *var_name);
+void update_var(char *var_name, t_data *data);
 
 /* 		builtin_exit */
 void builtin_exit(char *input, t_data *data);

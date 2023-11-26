@@ -6,19 +6,38 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
+void update_env_value(t_data *data, char *var_name, char *value)
+{
+	int i;
+	char *new;
+
+	i = var_index(var_name, data->envp);
+	if(i == -1)
+	{
+		printf("var not found\n"); // needs to be corrected
+		return;
+	}
+	free(data->envp[i]);
+	new = ft_strjoin(var_name, value);
+	data->envp[i] = new;
+}
+
 void builtin_cd(t_data *data)
 {
-	char *path = "/usr/bin/ls";
-	char *args[] = {path, "-l", NULL};
+	// char *path = "/usr/bin/ls";
+	// char *args[] = {path, "-l", NULL};
 	char buffer[FILENAME_MAX];
+	// char *new_value;
 
 	if(data->cmd->args[1] == NULL || ft_strcmp(data->cmd->args[1], "~") == 0)
 	{
 		if(chdir(getenv("HOME")) == -1)
 		{
 			perror("cd");
-			return(1);
+			data->exit_code = 1;
 		}
+		update_env_value(data, "OLDPWD", getenv("PWD"));
 		printf("%s\n", getcwd(buffer, sizeof(buffer)));
 		// printf("%s\n", getenv("PWD"));
 	}
