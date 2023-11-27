@@ -95,6 +95,7 @@ void builtin_exit(char *input, t_data *data);
 
 /* 		builtin_pwd  */
 void builtin_pwd(t_data *data);
+char *ft_getenv(char *var_name, t_data *data);
 
 /* 		builtin_cd */
 void builtin_cd(t_data *data);

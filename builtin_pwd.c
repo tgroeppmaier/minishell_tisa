@@ -6,10 +6,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-
-/* 	probably not needed since getenv does the same */
-
-char *get_env_value(char *var_name, t_data *data)
+char *ft_getenv(char *var_name, t_data *data)
 {
 	int i;
 	char *value;
@@ -17,7 +14,7 @@ char *get_env_value(char *var_name, t_data *data)
 	i = var_index(var_name, data->envp);
 	if(i == -1)
 		return (NULL);
-	value = data->envp[i] + 4;
+	value = data->envp[i] + 5;
 	return(value);
 }
 
@@ -25,7 +22,7 @@ void builtin_pwd(t_data *data)
 {
 	char *pwd;
 	
-	pwd = getenv("PWD");
+	pwd = ft_getenv("PWD", data);
 	if(pwd == NULL)
 	{
 		printf("PWD environment variable not set");

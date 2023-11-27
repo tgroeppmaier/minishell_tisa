@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
 void update_env_value(t_data *data, char *var_name, char *value)
 {
 	int i;
@@ -23,30 +22,95 @@ void update_env_value(t_data *data, char *var_name, char *value)
 	data->envp[i] = new;
 }
 
+int get_arg_count(char **args)
+{
+	int i;
+
+	i = 0;
+	while(args[i])
+		i++;
+	return(i);
+}
+
 void builtin_cd(t_data *data)
 {
-	// char *path = "/usr/bin/ls";
+	char *path;
 	// char *args[] = {path, "-l", NULL};
-	char buffer[FILENAME_MAX];
-	// char *new_value;
-
+	// char buffer[FILENAME_MAX];
+	if(get_arg_count(data->cmd->args))
+	
 	if(data->cmd->args[1] == NULL || ft_strcmp(data->cmd->args[1], "~") == 0)
 	{
-		if(chdir(getenv("HOME")) == -1)
+		path = ft_getenv("HOME", data);
+		printf("path: %s\n", path);
+		if(path == NULL)
 		{
-			perror("cd");
+			printf("bash: cd: HOME not set\n");
 			data->exit_code = 1;
+			return;
 		}
-		// if (!does_var_exist("OLDPWD", data->envp))
-		// 	add_var("OLDPWD", data);
-		// else
-		// 	update_var(args[i], data);
-		// builtin_export()
-		update_env_value(data, "OLDPWD", getenv("PWD"));
-		printf("%s\n", getcwd(buffer, sizeof(buffer)));
-		// printf("%s\n", getenv("PWD"));
+		if(chdir(path) == -1)
+		{
+			printf("bash: cd: %s: No such file or directory\n", path);
+			data->exit_code = 1;
+			return;
+		}
 	}
+
 }
+// void update_env_value(t_data *data, char *var_name, char *value) {
+//     int i;
+//     char *new_var;
+
+//     i = var_index(var_name, data->envp);
+//     if (i == -1) {
+//         printf("var not found\n"); // needs to be corrected
+//         return;
+//     }
+
+//     size_t len = strlen(var_name) + strlen(value) + 2; // +2 for '=' and '\0'
+//     new_var = malloc(len);
+//     if (!new_var) {
+//         perror("Failed to allocate memory");
+//         return;
+//     }
+
+//     snprintf(new_var, len, "%s=%s", var_name, value);
+//     free(data->envp[i]);
+//     data->envp[i] = new_var;
+// }
+
+// void builtin_cd(t_data *data) {
+//     char buffer[FILENAME_MAX];
+//     char *oldpwd = getcwd(buffer, sizeof(buffer));
+
+//     if (data->cmd->args[1] == NULL || ft_strcmp(data->cmd->args[1], "~") == 0) {
+//         if (chdir(getenv("HOME")) == -1) {
+//             perror("cd");
+//             data->exit_code = 1;
+//             return;
+//         }
+//     } else {
+//         if (chdir(data->cmd->args[1]) == -1) {
+//             perror("cd");
+//             data->exit_code = 1;
+//             return;
+//         }
+//     }
+
+//     // Update OLDPWD and PWD
+//     if (oldpwd != NULL) {
+//         update_env_value(data, "OLDPWD", oldpwd);
+//     }
+//     char *newpwd = getcwd(buffer, sizeof(buffer));
+//     if (newpwd != NULL) {
+//         update_env_value(data, "PWD", newpwd);
+//     }
+
+//     data->exit_code = 0;
+// }
+
+
 
 // void free_all(char **words)
 // {
