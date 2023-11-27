@@ -42,28 +42,19 @@ bool	print_export(char **envp)
 }
 
 /* adds variable if there is an '=' after var_name */
+
 void add_var(char *var_name, t_data *data)
 {
 	int		i;
 	char	**new_envp;
 
 	data->exit_code = 1;
-	i = 0;
+	i = count_env(data->envp);
 	if (ft_strchr(var_name, '=') == NULL)
 		return ;
-	new_envp = (char **)malloc((count_env(data->envp) + 2) * sizeof(char *));
+	new_envp = copy_environ(data->envp, 1);
 	if (!new_envp)
 		return ;
-	while (data->envp[i])
-	{
-		new_envp[i] = ft_strdup(data->envp[i]); 
-		if(!new_envp[i]) // to handle strdup fail
-		{
-			free_envp(&new_envp);
-			return ;
-		}
-		i++;
-	}
 	new_envp[i] = ft_strdup(var_name);
 	if(!new_envp[i])
 	{
@@ -101,8 +92,7 @@ int	var_index(char *var_name, char **envp)
 }
 
 /* variable name can only start with a-z, A-Z or '_' and can only contain a-z,
-	A-Z, 0-9 and '_'
-	valid variable name must be followd by '='   */
+	A-Z, 0-9 and '_'  */
 
 bool	is_valid_name(char *var_name)
 {
@@ -124,6 +114,8 @@ bool	is_valid_name(char *var_name)
 	return (true);
 }
 
+/* takes variable + value and updates env */
+
 void update_var(char *var_name, t_data *data)
 {
 	int	i;
@@ -141,7 +133,7 @@ void update_var(char *var_name, t_data *data)
 }
 
 
-/* checks, if the variable already exists in env. */
+/* checks, if the variable already exists in env. to be in env, it has to have a '='  */
 
 bool	does_var_exist(char *var_name, char **envp)
 {
@@ -150,12 +142,10 @@ bool	does_var_exist(char *var_name, char **envp)
 
 	i = 0;
 	len = 0;
-	while (var_name[len])
-	{
-		if (var_name[len] == '=')
-			break ;
+	while (var_name[len] && var_name[len] != '=')
 		len++;
-	}
+	if(var_name[len] != '=')
+		return(false);
 	while (envp[i])
 	{
 		if ((ft_strncmp(var_name, envp[i], len) == 0) && envp[i][len] == '=')
@@ -178,7 +168,9 @@ bool	builtin_export(char **args, t_data *data)
 	{
 		if (!is_valid_name(args[i]))
 		{
+
 			printf("bash: export: '%s': not a valid identifier\n", args[i]);  // needs to be replaced with ft_printf
+			data->exit_code = 1;
 			return (false);
 		}
 		if (!does_var_exist(args[i], data->envp))

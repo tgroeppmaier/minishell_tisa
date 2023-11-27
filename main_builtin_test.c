@@ -56,7 +56,7 @@ int main()
 	t_command	cmd;
 	extern char **environ;
 
-	data.envp = copy_environ(environ);
+	data.envp = copy_environ(environ, 0);
 	data.cmd = &cmd;
 	while (1)
 	{

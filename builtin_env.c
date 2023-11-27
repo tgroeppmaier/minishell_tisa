@@ -36,14 +36,16 @@ void free_envp(char ***envp)
     *envp = NULL;  // Set the original envp pointer to NULL
 }
 
-	/* dynamically allocates memory and copies the given env into it and returns pointer to it */
+/* dynamically allocates memory, copies the given env into it and returns pointer to it */
 
-char	**copy_environ(char **envp)
+char	**copy_environ(char **envp, int additional_space)
 {
 	int i = 0;
+	int total_space;
 	char	**new_envp;
 
-	new_envp = (char **)malloc((count_env(envp) + 1) * sizeof(char *));
+	total_space = count_env(envp) + additional_space + 1;
+	new_envp = (char **)malloc(total_space * sizeof(char *));
 	if(!new_envp)
 		return(NULL);
 	while(envp[i])
@@ -56,7 +58,8 @@ char	**copy_environ(char **envp)
 		}
 		i++;
 	}
-	new_envp[i] = NULL;
+	while(i < total_space)
+		new_envp[i++] = NULL;
 	return(new_envp);
 }
 

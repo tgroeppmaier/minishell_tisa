@@ -37,6 +37,11 @@ void builtin_cd(t_data *data)
 			perror("cd");
 			data->exit_code = 1;
 		}
+		// if (!does_var_exist("OLDPWD", data->envp))
+		// 	add_var("OLDPWD", data);
+		// else
+		// 	update_var(args[i], data);
+		// builtin_export()
 		update_env_value(data, "OLDPWD", getenv("PWD"));
 		printf("%s\n", getcwd(buffer, sizeof(buffer)));
 		// printf("%s\n", getenv("PWD"));

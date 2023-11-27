@@ -73,7 +73,7 @@ void					print_word_list(t_token *node);
 int						builtin_echo(char **words);
 
 /*      builtin_env */
-char					**copy_environ(char **envp);
+char					**copy_environ(char **envp, int additional_space);
 void					free_envp(char ***envp);
 void					builtin_env(char **envp, t_data *data);
 int						count_env(char **envp);
@@ -85,6 +85,10 @@ bool					print_export(char **envp);
 int	var_index(char *var_name, char **envp);
 bool	is_valid_name(char *var_name);
 void update_var(char *var_name, t_data *data);
+void update_var(char *var_name, t_data *data);
+bool	does_var_exist(char *var_name, char **envp);
+
+
 
 /* 		builtin_exit */
 void builtin_exit(char *input, t_data *data);
