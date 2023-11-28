@@ -9,12 +9,21 @@
 char *ft_getenv(char *var_name, t_data *data)
 {
 	int i;
+	int k;
 	char *value;
 
+	k = 0;
 	i = var_index(var_name, data->envp);
 	if(i == -1)
 		return (NULL);
-	value = data->envp[i] + 5;
+	
+	while(data->envp[i][k])
+	{
+		if(data->envp[i][k] == '=')
+			break;
+		k++;
+	}
+	value = data->envp[i] + k + 1;
 	return(value);
 }
 
@@ -25,7 +34,7 @@ void builtin_pwd(t_data *data)
 	pwd = ft_getenv("PWD", data);
 	if(pwd == NULL)
 	{
-		printf("PWD environment variable not set");
+		printf("PWD environment variable not set\n");
 		data->exit_code = 1;
 	}
 	else

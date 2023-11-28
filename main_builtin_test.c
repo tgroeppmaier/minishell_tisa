@@ -40,7 +40,7 @@ void	exec_int_function(char *input, t_data *data)
 	}
 	if(ft_strcmp(data->cmd->args[0], "cd") == 0)
 	{
-		builtin_cd(data);
+		data->exit_code = builtin_cd(data);
 	}
 }
 

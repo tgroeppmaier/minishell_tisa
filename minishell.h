@@ -87,7 +87,7 @@ bool	is_valid_name(char *var_name);
 void update_var(char *var_name, t_data *data);
 void update_var(char *var_name, t_data *data);
 bool	does_var_exist(char *var_name, char **envp);
-
+void add_var(char *var_name, t_data *data);
 
 
 /* 		builtin_exit */
@@ -98,6 +98,6 @@ void builtin_pwd(t_data *data);
 char *ft_getenv(char *var_name, t_data *data);
 
 /* 		builtin_cd */
-void builtin_cd(t_data *data);
+int builtin_cd(t_data *data);
 
 #endif
