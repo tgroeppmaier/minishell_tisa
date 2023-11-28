@@ -100,4 +100,7 @@ char *ft_getenv(char *var_name, t_data *data);
 /* 		builtin_cd */
 int builtin_cd(t_data *data);
 
+/* 		builtin_unset */
+int builtin_unset(t_data *data);
+
 #endif

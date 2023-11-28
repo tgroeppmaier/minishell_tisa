@@ -12,7 +12,7 @@ void	exec_int_function(char *input, t_data *data)
 		builtin_exit(input, data);
 	if (ft_strcmp(data->cmd->args[0], "export") == 0)
 	{
-		if (builtin_export(data->cmd->args, data) == true) // success of function
+		if (builtin_export(data->cmd->args, data) == true)
 			data->exit_code = 0;
 		else
 			data->exit_code = 1;
@@ -35,13 +35,11 @@ void	exec_int_function(char *input, t_data *data)
 		data->exit_code = 0;
 	}
 	if(ft_strcmp(data->cmd->args[0], "pwd") == 0)
-	{
 		builtin_pwd(data);
-	}
 	if(ft_strcmp(data->cmd->args[0], "cd") == 0)
-	{
 		data->exit_code = builtin_cd(data);
-	}
+	if(ft_strcmp(data->cmd->args[0], "unset") == 0)
+		data->exit_code = builtin_unset(data);
 }
 
 /*  main is only for testing the internal commands. when testing,
