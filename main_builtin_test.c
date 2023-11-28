@@ -13,16 +13,7 @@ void	exec_int_function(char *input, t_data *data)
 	if (ft_strcmp(data->cmd->args[0], "export") == 0)
 		data->exit_code = builtin_export(data->cmd->args, data);
 	if(ft_strcmp(data->cmd->args[0], "env") == 0)
-	{
-		if(data->cmd->args[1] == NULL)
-			builtin_env(data->envp, data);
-		else
-		{
-			printf("env: '%s': No such file or directory\n", data->cmd->args[1]); // needs to be replaced with ft_printf
-			data->exit_code = 127;
-		}
-		return ;
-	}
+		data->exit_code = builtin_env(data);
 	if(ft_strcmp(data->cmd->args[0], "echo") == 0)
 		data->exit_code = builtin_echo(data->cmd->args);
 	if(ft_strcmp(data->cmd->args[0], "pwd") == 0)

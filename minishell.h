@@ -75,13 +75,13 @@ int						builtin_echo(char **words);
 /*      builtin_env */
 char					**copy_environ(char **envp, int additional_space);
 void					free_envp(char ***envp);
-void					builtin_env(char **envp, t_data *data);
+int 					builtin_env(t_data *data);
 int						count_env(char **envp);
 
 /* 		builtin_export */
 int						builtin_export(char **args, t_data *data);
 void					free_data_args(t_data *data);
-bool					print_export(char **envp);
+int					print_export(char **envp);
 int	var_index(char *var_name, char **envp);
 bool	is_valid_name(char *var_name);
 void update_var(char *var_name, t_data *data);

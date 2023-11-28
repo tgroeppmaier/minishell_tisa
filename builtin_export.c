@@ -23,10 +23,7 @@ void	free_data_args(t_data *data)
 	data->cmd->args = NULL;
 }
 
-/* var_name is a variable in env, it returns the index of it. If not, it returns
-	-1 */
-
-bool	print_export(char **envp)
+int	print_export(char **envp)
 {
 	int	i;
 
@@ -38,7 +35,7 @@ bool	print_export(char **envp)
 		write(1, "\n", 1);
 		i++;
 	}
-	return (true);
+	return (0);
 }
 
 /* adds variable if there is an '=' after var_name */
@@ -135,7 +132,7 @@ void update_var(char *var_name, t_data *data)
 
 
 /* checks, if the variable already exists in env. to be in env, it has to have a '='  */
-
+/* 
 bool	does_var_exist(char *var_name, char **envp)
 {
 	int	i;
@@ -156,7 +153,7 @@ bool	does_var_exist(char *var_name, char **envp)
 	return (false);
 }
 
-/* example for command: command[0] = "export", command[1] = 'VAR_NAME=value'  */
+ *//* example for command: command[0] = "export", command[1] = 'VAR_NAME=value'  */
 
 int	builtin_export(char **args, t_data *data)
 {
@@ -172,7 +169,7 @@ int	builtin_export(char **args, t_data *data)
 			printf("bash: export: '%s': not a valid identifier\n", args[i]);  // needs to be replaced with ft_printf
 			return (1);
 		}
-		if (!does_var_exist(args[i], data->envp))
+		if (var_index(args[i], data->envp) == -1)
 			add_var(args[i], data);
 		else
 			update_var(args[i], data);

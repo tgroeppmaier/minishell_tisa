@@ -66,17 +66,22 @@ char	**copy_environ(char **envp, int additional_space)
 /* 		prints all environment variables to stdout. maybe use ft_putstr_fd? but if we redirect before calling
 		it should not be necessary */
 
-void builtin_env(char **envp, t_data *data)
+int builtin_env(t_data *data)
 {
 	int i;
 
 	i = 0;
-	while(envp[i])
+	if(data->cmd->args[1] == NULL)
 	{
-		ft_putstr(envp[i]);
-		write(1, "\n", 1);
-		i++;
+		while(data->envp[i])
+		{
+			ft_putstr(data->envp[i]);
+			write(1, "\n", 1);
+			i++;
+		}
+		return(0);
 	}
-	data->exit_code = 0;
+	printf("env: '%s': No such file or directory\n", data->cmd->args[1]); // needs to be replaced with ft_printf
+	return(127);
 }
 
