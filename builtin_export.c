@@ -158,7 +158,7 @@ bool	does_var_exist(char *var_name, char **envp)
 
 /* example for command: command[0] = "export", command[1] = 'VAR_NAME=value'  */
 
-bool	builtin_export(char **args, t_data *data)
+int	builtin_export(char **args, t_data *data)
 {
 	int	i;
 
@@ -169,10 +169,8 @@ bool	builtin_export(char **args, t_data *data)
 	{
 		if (!is_valid_name(args[i]))
 		{
-
 			printf("bash: export: '%s': not a valid identifier\n", args[i]);  // needs to be replaced with ft_printf
-			data->exit_code = 1;
-			return (false);
+			return (1);
 		}
 		if (!does_var_exist(args[i], data->envp))
 			add_var(args[i], data);
@@ -180,5 +178,5 @@ bool	builtin_export(char **args, t_data *data)
 			update_var(args[i], data);
 		i++;
 	}
-	return (true);
+	return (0);
 }

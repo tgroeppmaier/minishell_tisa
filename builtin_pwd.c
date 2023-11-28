@@ -27,7 +27,7 @@ char *ft_getenv(char *var_name, t_data *data)
 	return(value);
 }
 
-void builtin_pwd(t_data *data)
+int builtin_pwd(t_data *data)
 {
 	char *pwd;
 	
@@ -35,11 +35,11 @@ void builtin_pwd(t_data *data)
 	if(pwd == NULL)
 	{
 		printf("PWD environment variable not set\n");
-		data->exit_code = 1;
+		return(1);
 	}
 	else
 	{
 		printf("%s\n", pwd);
-		data->exit_code = 0;
+		return(0);
 	}
 }

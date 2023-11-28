@@ -70,7 +70,7 @@ int	ft_atoi(const char *str)
 
 void	builtin_exit(char *input, t_data *data)
 {
-	if (strcmp(data->cmd->args[0], "exit") == 0 && data->cmd->args[1] == NULL)
+	if (ft_strcmp(data->cmd->args[0], "exit") == 0 && data->cmd->args[1] == NULL)
 	{
 		free_data_args(data);
 		free(input);

@@ -79,7 +79,7 @@ void					builtin_env(char **envp, t_data *data);
 int						count_env(char **envp);
 
 /* 		builtin_export */
-bool					builtin_export(char **args, t_data *data);
+int						builtin_export(char **args, t_data *data);
 void					free_data_args(t_data *data);
 bool					print_export(char **envp);
 int	var_index(char *var_name, char **envp);
@@ -94,7 +94,7 @@ void add_var(char *var_name, t_data *data);
 void builtin_exit(char *input, t_data *data);
 
 /* 		builtin_pwd  */
-void builtin_pwd(t_data *data);
+int builtin_pwd(t_data *data);
 char *ft_getenv(char *var_name, t_data *data);
 
 /* 		builtin_cd */

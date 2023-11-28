@@ -11,13 +11,7 @@ void	exec_int_function(char *input, t_data *data)
 	if(ft_strcmp(data->cmd->args[0], "exit") == 0)
 		builtin_exit(input, data);
 	if (ft_strcmp(data->cmd->args[0], "export") == 0)
-	{
-		if (builtin_export(data->cmd->args, data) == true)
-			data->exit_code = 0;
-		else
-			data->exit_code = 1;
-		return ;
-	}
+		data->exit_code = builtin_export(data->cmd->args, data);
 	if(ft_strcmp(data->cmd->args[0], "env") == 0)
 	{
 		if(data->cmd->args[1] == NULL)
@@ -30,12 +24,9 @@ void	exec_int_function(char *input, t_data *data)
 		return ;
 	}
 	if(ft_strcmp(data->cmd->args[0], "echo") == 0)
-	{
-		builtin_echo(data->cmd->args);
-		data->exit_code = 0;
-	}
+		data->exit_code = builtin_echo(data->cmd->args);
 	if(ft_strcmp(data->cmd->args[0], "pwd") == 0)
-		builtin_pwd(data);
+		data->exit_code = builtin_pwd(data);
 	if(ft_strcmp(data->cmd->args[0], "cd") == 0)
 		data->exit_code = builtin_cd(data);
 	if(ft_strcmp(data->cmd->args[0], "unset") == 0)
