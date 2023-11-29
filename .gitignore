@@ -4,3 +4,4 @@
 vgcore.*
 *.json
 *vscode*
+*test*

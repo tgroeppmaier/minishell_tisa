@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-NAME = minishell_builtins
+NAME = minishell_test
 LIBS = -lreadline
 SRC = main_builtin_test.c builtin_export.c libft.c builtin_env.c builtin_exit.c builtin_echo.c builtin_pwd.c builtin_cd.c builtin_unset.c
 OBJ = $(SRC:.c=.o)
