@@ -1,19 +1,19 @@
+#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <stdbool.h>
 
-char *ft_strchr(char *str, int c)
+char	*ft_strchr(char *str, int c)
 {
-    while(*str) 
-    {
-        if(*str == (char)c)
-            return (str);
-        str++;
-    }
-    if (c == '\0')
-        return (str); // Added handling for '\0'
-    return (NULL);
+	while (*str)
+	{
+		if (*str == (char)c)
+			return (str);
+		str++;
+	}
+	if (c == '\0')
+		return (str); // Added handling for '\0'
+	return (NULL);
 }
 
 size_t	ft_strlen(const char *s)
@@ -26,13 +26,13 @@ size_t	ft_strlen(const char *s)
 	return (p - s);
 }
 
-void ft_putstr(char *str)
+void	ft_putstr(char *str)
 {
-	while(*str)
+	while (*str)
 		write(1, str++, 1);
 }
 
-bool ft_isalpha(int c)
+bool	ft_isalpha(int c)
 {
 	if ((c > 64 && c < 91) || (c > 96 && c < 123))
 		return (true);
@@ -40,7 +40,7 @@ bool ft_isalpha(int c)
 		return (false);
 }
 
-bool ft_isdigit(int c)
+bool	ft_isdigit(int c)
 {
 	if ((c >= '0' && c <= '9'))
 		return (true);
@@ -48,18 +48,18 @@ bool ft_isdigit(int c)
 		return (false);
 }
 
-int ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(s1[i] && s2[i])
+	while (s1[i] && s2[i])
 	{
-		if(s1[i] != s2[i])
-			return((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	return((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -100,7 +100,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len1;
 	int		len2;
 	char	*dst;
-	
+
 	if (!s1 || !s2)
 		return (NULL);
 	len1 = ft_strlen(s1);
@@ -137,8 +137,6 @@ char	*ft_strndup(const char *s1, size_t n)
 	return (str);
 }
 
-
-
 int	ft_wcount(const char *s, char c)
 {
 	int	count;
@@ -160,9 +158,9 @@ int	ft_wcount(const char *s, char c)
 
 char	**ft_split(char const *s, char c)
 {
-	char	**array;
-	int		k;
-	int		count;
+	char **array;
+	int k;
+	int count;
 
 	k = 0;
 	if (!s)

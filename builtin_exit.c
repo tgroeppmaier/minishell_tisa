@@ -93,5 +93,6 @@ void	builtin_exit(char *input, t_data *data)
 	free(input);
 	free_data_args(data);
 	free_envp(&(data->envp));
+	write(1, "exit\n", 5);
 	exit(exit_code);
 }

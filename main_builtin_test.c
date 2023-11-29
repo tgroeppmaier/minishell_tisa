@@ -11,7 +11,7 @@ void	exec_int_function(char *input, t_data *data)
 	if(ft_strcmp(data->cmd->args[0], "exit") == 0)
 		builtin_exit(input, data);
 	if (ft_strcmp(data->cmd->args[0], "export") == 0)
-		data->exit_code = builtin_export(data->cmd->args, data);
+		data->exit_code = builtin_export(data);
 	if(ft_strcmp(data->cmd->args[0], "env") == 0)
 		data->exit_code = builtin_env(data);
 	if(ft_strcmp(data->cmd->args[0], "echo") == 0)
@@ -25,8 +25,7 @@ void	exec_int_function(char *input, t_data *data)
 }
 
 /*  main is only for testing the internal commands. when testing,
-	the first word must always be the internal command. because if its not ,
-	the builtin_export	function would not have been called in the first place */
+	the first word must always be the internal command. */
 
 // int	main(int argc, char **argv, char **envp)
 int main()
@@ -52,7 +51,6 @@ int main()
 		free_data_args(&data);
 		free(input);
 	}
-	print_export(data.envp);
 	clear_history();
 	free_envp(&(data.envp));
 	return (0);

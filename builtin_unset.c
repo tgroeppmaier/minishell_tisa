@@ -6,6 +6,36 @@
 #include <stdbool.h>
 #include <unistd.h>
 
+void	free_envp(char ***envp)
+{
+	int	i;
+
+	i = 0;
+	if (!(*envp))
+		return ;
+	while ((*envp)[i])
+	{
+		free((*envp)[i]);
+		i++;
+	}
+	free(*envp);
+	*envp = NULL; // Set the original envp pointer to NULL
+}
+
+void	free_data_args(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->cmd->args[i])
+	{
+		free(data->cmd->args[i]);
+		i++;
+	}
+	free(data->cmd->args);
+	data->cmd->args = NULL;
+}
+
 /* frees the given variable,
 	if it exists and shifts all following variables one spot forward in envp */
 
