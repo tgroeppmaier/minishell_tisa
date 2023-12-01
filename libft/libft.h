@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 15:27:53 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/23 22:31:38 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/01/09 15:27:53 by Ektin Op Ur       #+#    #+#             */
+/*   Updated: 2023/12/01 17:26:03 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void		*ft_calloc(t_size_t num, t_size_t size);
 
 //ft_strdup
 char		*ft_strdup(const char *str);
+char		*ft_strndup(const char *s1, size_t n);
 
 //////////////////////////////////
 //////////////////////////////////

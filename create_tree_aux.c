@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree_aux.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 11:40:25 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 11:10:54 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/15 11:40:25 by Ektin Op Ur       #+#    #+#             */
+/*   Updated: 2023/12/01 16:24:09 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
