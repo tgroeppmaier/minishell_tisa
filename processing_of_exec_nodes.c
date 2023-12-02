@@ -30,58 +30,108 @@ char	*ft_strndup(const char *s1, size_t n)
 	return (str);
 }
 
-char	*remove_outer_quotes(char *str)
-{
-	int		pos_open;
-	int		pos_close;
-	char	quote;
-	char	*tmp1;
-	char	*tmp2;
-	t_sgm	sgm;
-	char	*new_str;
-	int 	i = 0;
+// char	*remove_outer_quotes(char *str)
+// {
+// 	int		pos_open;
+// 	int		pos_close;
+// 	char	quote;
+// 	char	*tmp1;
+// 	char	*tmp2;
+// 	t_sgm	sgm;
+// 	char	*new_str;
+// 	int 	i = 0;
 
-	sgm.e = (int)ft_strlen(str);
-	sgm.b = 0;
-	if (sgm.e < 2 || -1 == get_quote_pos(str, sgm))
-		return (ft_strdup(str));
-	pos_open = get_quote_pos(str, sgm);
-	if (pos_open != -1)
+// 	sgm.e = (int)ft_strlen(str);
+// 	sgm.b = 0;
+// 	if (sgm.e < 2 || -1 == get_quote_pos(str, sgm))
+// 		return (ft_strdup(str));
+// 	pos_open = get_quote_pos(str, sgm);
+// 	if (pos_open != -1)
+// 	{
+// 		quote = str[pos_open];
+// 		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
+// 		if(pos_close == pos_open + 1)
+// 		{
+// 			// ft_printf("test:%sword", ft_strdup(""));
+// 			return(ft_strdup(""));
+// 		}
+// 	}
+// 	new_str = ft_strdup("");
+// 	while(i < sgm.e)
+// 	{
+// 		sgm.b = i;
+// 		pos_open = get_quote_pos(str, sgm);
+// 		ft_printf("open: %d\n", pos_open);
+// 		if (-1 == pos_open)
+// 		{
+// 			tmp1 = ft_strdup(str + i);
+// 			tmp2 = ft_strjoin(new_str, tmp1);
+// 			free(new_str);
+// 			new_str = tmp2;
+// 			free(tmp1);
+// 			return (new_str);
+// 		}
+// 		quote = str[pos_open];
+// 		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
+// 		ft_printf("close: %d\n", pos_close);
+// 		free(new_str);
+// 		new_str = ft_strndup(str, pos_open);
+// 		tmp1 = ft_strndup(str + pos_open + 1, pos_close - pos_open - 1);
+// 		tmp2 = new_str;
+// 		new_str = ft_strjoin(new_str, tmp1);
+// 		free(tmp1);
+// 		free(tmp2);
+// 		i = pos_close + 1;
+// 	}
+// 	return(new_str);
+// }
+
+char *remove_outer_quotes(char *str) 
+{
+    int pos_open, pos_close;
+    char quote;
+    char *tmp1;
+    t_sgm sgm;
+    char *new_str = ft_strdup("");  // Initialize new_str
+    int i = 0;
+
+    sgm.e = (int)ft_strlen(str);
+    if (sgm.e < 2) 
 	{
-		quote = str[pos_open];
-		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
-		if(pos_close == pos_open + 1)
-		{
-			// ft_printf("test:%sword", ft_strdup(""));
-			return(ft_strdup(""));
-		}
-	}
-	new_str = ft_strdup("");
-	while(i < sgm.e)
+        free(new_str);
+        return (ft_strdup(str));
+    }
+
+    while (i < sgm.e) 
 	{
-		sgm.b = i;
-		pos_open = get_quote_pos(str, sgm);
-		if (-1 == pos_open)
+        sgm.b = i;
+        pos_open = get_quote_pos(str, sgm);
+        if (-1 == pos_open) 
 		{
-			tmp1 = ft_strdup(str + i);
-			tmp2 = ft_strjoin(new_str, tmp1);
-			free(new_str);
-			new_str = tmp2;
-			free(tmp1);
-			return (new_str);
-		}
-		quote = str[pos_open];
-		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
-		free(new_str);
-		new_str = ft_strndup(str, pos_open);
-		tmp1 = ft_strndup(str + pos_open + 1, pos_close - pos_open - 1);
-		tmp2 = new_str;
-		new_str = ft_strjoin(new_str, tmp1);
-		free(tmp1);
-		free(tmp2);
-		i = pos_close + 1;
-	}
-	return(new_str);
+            tmp1 = ft_strdup(str + i);
+            char *tmp2 = new_str;
+            new_str = ft_strjoin(new_str, tmp1);
+            free(tmp1);
+            free(tmp2);
+            break;
+        }
+        quote = str[pos_open];
+        pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
+        tmp1 = ft_strndup(str + i, pos_open - i);
+        char *tmp2 = new_str;
+        new_str = ft_strjoin(new_str, tmp1);
+        free(tmp1);
+        free(tmp2);
+
+        tmp1 = ft_strndup(str + pos_open + 1, pos_close - pos_open - 1);
+        tmp2 = new_str;
+        new_str = ft_strjoin(new_str, tmp1);
+        free(tmp1);
+        free(tmp2);
+
+        i = pos_close + 1;
+    }
+    return new_str;
 }
 
 void expand_quotes(t_tree *tree)
