@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree_find_sep_or_brackets.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 11:40:25 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/23 20:04:53 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/15 11:40:25 by aminakov          #+#    #+#             */
+/*   Updated: 2023/11/23 20:04:53 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

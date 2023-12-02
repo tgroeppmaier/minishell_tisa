@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/14 21:06:07 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/01/29 21:35:46 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/01/14 21:06:07 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/01 16:40:24 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *str, int c)
+// My version
+/*char	*ft_strchr(const char *str, int c)
 {
 	char	*ptr;
 	int		index;
@@ -37,5 +38,21 @@ char	*ft_strchr(const char *str, int c)
 		ptr = &(copy[index]);
 		return (ptr);
 	}
+	return (NULL);
+}*/
+
+// Timo version, modified for const qualifier
+char	*ft_strchr(char const *str, int c)
+{
+	if (NULL == str)
+		return (NULL);
+	while (*str)
+	{
+		if ((char)c == *str)
+			return ((char *)str);
+		++str;
+	}
+	if ('\0' == c)
+		return ((char *)str);
 	return (NULL);
 }

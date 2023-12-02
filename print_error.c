@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/14 12:13:07 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/20 12:06:01 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/14 12:13:07 by aminakov          #+#    #+#             */
+/*   Updated: 2023/11/20 12:06:01 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ int	print_error(int res, char const *str)
 {
 	if (NULL == str || ft_strlen(str) == 0)
 		return (res);
-	ft_printf_fd(STDERR_FILENO, "%s", BUFF_GREEN);
-	if (0 != res)
+	if (0 == res)
+		ft_printf_fd(STDERR_FILENO, "%s", BUFF_GREEN);
+	else
 		ft_printf_fd(STDERR_FILENO, "%s", BUFF_RED);
 	ft_printf_fd(STDERR_FILENO, "[%s]%s\n", str, RES);
 	return (res);
@@ -27,8 +28,9 @@ int	perr2(int res, char const *str, char ch)
 {
 	if (NULL == str || ft_strlen(str) == 0)
 		return (res);
-	ft_printf_fd(STDERR_FILENO, "%s", BUFF_GREEN);
-	if (0 != res)
+	if (0 == res)
+		ft_printf_fd(STDERR_FILENO, "%s", BUFF_GREEN);
+	else
 		ft_printf_fd(STDERR_FILENO, "%s", BUFF_RED);
 	ft_printf_fd(STDERR_FILENO, "[%s: \'%c\']%s\n", str, ch, RES);
 	return (res);
@@ -38,8 +40,9 @@ int	perr3(int res, char const *str, char ch, int num)
 {
 	if (NULL == str || ft_strlen(str) == 0)
 		return (res);
-	ft_printf_fd(STDERR_FILENO, "%s", BUFF_GREEN);
-	if (0 != res)
+	if (0 == res)
+		ft_printf_fd(STDERR_FILENO, "%s", BUFF_GREEN);
+	else
 		ft_printf_fd(STDERR_FILENO, "%s", BUFF_RED);
 	ft_printf_fd(STDERR_FILENO, "[%s: \'%c\', %d]%s\n", str, ch, num, RES);
 	return (res);

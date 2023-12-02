@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 19:40:19 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/28 17:45:10 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
+/*   Updated: 2023/11/28 17:45:10 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,14 @@ int	do_redir_inin_smallersmaller(char const *endword, t_tree *tree)
 int	do_in_loop_heredoc_exit(t_tree *tree, char const *endword, int pipe_fd_out)
 {
 	char	*curr_line;
-	t_tree	*tree_ptr;
 
 	ft_printf("heredoc > ");
 	curr_line = get_next_line(STDIN_FILENO);
 	if (0 == ft_strncmp(curr_line, endword, ft_strlen(endword)) && \
 			ft_strlen(curr_line) == ft_strlen(endword) + 1)
 	{
-		do_free_str(&tree->cmd);
-		tree_ptr = tree->head;
-		free_tree(&tree_ptr);
 		do_free_str(&curr_line);
-		exit(0);
+		do_clean_and_exit(0, tree);
 	}
 	else
 	{
@@ -118,3 +114,8 @@ int	do_in_loop_heredoc_exit(t_tree *tree, char const *endword, int pipe_fd_out)
 	}
 	return (1);
 }
+/*		free_data_except_tree(tree->data);
+		do_free_str(&tree->cmd);
+		tree_ptr = tree->head;
+		free_tree(&tree_ptr);
+		exit(0);*/

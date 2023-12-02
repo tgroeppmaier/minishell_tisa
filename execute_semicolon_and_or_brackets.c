@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_semicolon_and_or_brackets.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 16:37:37 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 17:56:01 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/29 16:37:37 by aminakov          #+#    #+#             */
+/*   Updated: 2023/11/29 17:56:01 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

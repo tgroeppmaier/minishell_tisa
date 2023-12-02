@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/14 18:43:25 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/20 20:00:14 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/01/14 18:43:25 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/01 19:28:46 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ int	ft_strncmp(const char *str1, const char *str2, t_size_t n)
 		return (res);
 	return ((unsigned char)*str1 - (unsigned int)*str2);
 }
+
+// Timo version
+/*int	ft_strncmp(char const *str1, char const *str2. size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (0 == n)
+		return (0);
+	while (i < n && str1[i] && str1[i] == str2[i])
+		++i;
+	if (i == n)
+		return (0);
+	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+}*/
 
 /* I wanted to use it in minishell to find setstr from end,\
  but it seems to be avoidable and also not useful

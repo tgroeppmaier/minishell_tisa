@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_exec1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 19:40:19 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 17:31:28 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/02 02:23:12 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,34 @@ int	ft_exec_exec(t_tree *tree)
 int	do_in_child_exec_exit(t_tree *tree)
 {
 	char	*cmd;
-	t_tree	*tree_ptr;
 	int		res;
 
 	if (NULL == tree)
 		exit (print_error(1, "wrong call to do_in_child_exec_exit"));
+	res = 0;
 	if (0 == do_redirections(tree))
 	{
 		cmd = get_cmd_from_list(tree->list);
-		res = ft_execute_cmd(cmd, tree->envp);
+		res = ft_execute_cmd(cmd, tree->data->envp);
 		do_free_str(&cmd);
 	}
+	exit(do_clean_and_exit(res, tree));
+}
+/*	do_free_str(&tree->cmd);
+	free_data_except_tree(tree->data);
+	tree_ptr = tree->head;
+	free_tree(&tree_ptr);
+	exit(res);
+*/
+
+int	do_clean_and_exit(int res, t_tree *tree)
+{
+	t_tree	*tree_ptr;
+
+	if (NULL == tree)
+		return (print_error(-1, "NULL in do_clean_and_exit"));
 	do_free_str(&tree->cmd);
+	free_data_except_tree(tree->data);
 	tree_ptr = tree->head;
 	free_tree(&tree_ptr);
 	exit(res);

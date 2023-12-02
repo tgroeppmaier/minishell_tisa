@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_tree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/20 10:04:34 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 17:24:19 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/20 10:04:34 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/02 05:39:12 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ int	ft_execute_tree(t_tree *tree)
 		return (0);
 	if (0 == tree->bene)
 		return (1);
-	if (DEBUG_MODE)
-		ft_printf_fd(STDERR_FILENO, "Now the tree will be executed!\n");
+	res = 0;
 	if (PIPE == tree->node)
 		res = ft_exec_pipe(tree);
 	else if (EXEC == tree->node)
-		res = ft_exec_exec(tree);
+	{
+		res = exec_int_function(tree);
+		if (-1 == res)
+			res = ft_exec_exec(tree);
+	}
 	else if (SEMICOLON == tree->node)
 		res = ft_exec_semicolon(tree);
 	else if (ANDAND == tree->node)

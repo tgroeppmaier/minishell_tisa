@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_aux.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/20 14:09:12 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/08/20 14:10:45 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/08/20 14:09:12 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/01 21:48:15 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_split(char **arr_str)
 	while (arr_str[j] != NULL)
 	{
 		free(arr_str[j]);
+		arr_str[j] = NULL;
 		++j;
 	}
 	free(arr_str);

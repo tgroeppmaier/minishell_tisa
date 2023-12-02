@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_exec2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 19:40:19 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 16:01:57 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/02 02:23:54 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ int	ft_exec_exec_no_new_process(t_tree *tree)
 		return (print_error(2, "NULL list in ft_exec_exec_no"));
 	if (0 != tree->do_in_child_process)
 		return (print_error(3, "wrong call to exec_no_new_process"));
+	res = 0;
 	if (0 == do_redirections(tree))
 	{
 		cmd = get_cmd_from_list(tree->list);
-		res = ft_execute_cmd(cmd, tree->envp);
+		res = ft_execute_cmd(cmd, tree->data->envp);
 		do_free_str(&cmd);
 	}
 	return (res);
@@ -95,6 +96,10 @@ int	ft_execute_cmd_path(char *cmd, char *envp[])
 	return (0);
 }
 
+/*if (NULL == cmd)
+		return (print_error(1, "NULL in ft_execute_cmd"));
+It is not a mistake, it happens if there are redirections
+without a command. */
 int	ft_execute_cmd(char *cmd, char *envp[])
 {
 	char	*path;
@@ -103,7 +108,7 @@ int	ft_execute_cmd(char *cmd, char *envp[])
 	int		pos;
 
 	if (NULL == cmd)
-		return (print_error(1, "NULL in ft_execute_cmd"));
+		return (print_error(0, ""));
 	pos = find_setsymb(cmd, " /", cr_sgm(0, ft_strlen(cmd)));
 	if (-1 == pos || ' ' == cmd[pos])
 		return (ft_execute_cmd_path(cmd, envp));

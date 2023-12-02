@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree_aux.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 11:40:25 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 11:10:54 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/15 11:40:25 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/01 22:17:46 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prefill_node(t_tree *tree, char *str, t_sgm sgm, char *envp[])
+void	prefill_node(t_tree *tree, char *str, t_sgm sgm, t_data *data)
 {
-	if (NULL == tree)
+	if (NULL == tree || NULL == data)
+	{
+		print_error(1, "How is this possible in XXI century? prefill_node");
 		return ;
+	}
 	tree->node = EXEC;
-	tree->envp = envp;
+	tree->data = data;
 	tree->cmd = str;
 	tree->left_child = NULL;
 	tree->right_child = NULL;
@@ -31,6 +34,8 @@ void	prefill_node(t_tree *tree, char *str, t_sgm sgm, char *envp[])
 	return ;
 }
 
+/* 	freeing tree, do not attempt to free data. They are independent entities.
+	See more in the comments to free_data_except_tree() in builtin_unset.c */
 void	free_tree(t_tree **tree)
 {
 	if (NULL == tree || NULL == *tree)
@@ -39,7 +44,7 @@ void	free_tree(t_tree **tree)
 	free_tree(&(*tree)->right_child);
 	(*tree)->head = NULL;
 	(*tree)->cmd = NULL;
-	(*tree)->envp = NULL;
+	(*tree)->data = NULL;
 	(*tree)->beg = 0;
 	(*tree)->end = 0;
 	(*tree)->level = 0;
@@ -84,14 +89,14 @@ void	print_tree(t_tree *tree)
 // 2: just print
 // 4: just delete
 void	create_display_free_tree(t_tree **tree, char *str, int mode, \
-							char *envp[])
+							t_data *data)
 {
 	if (NULL == tree && print_error(1, \
 			"create_display_free_tree: NULL tree"))
 		return ;
 	if (mode & 1)
 	{
-		create_tree(tree, str, cr_sgm(0, ft_strlen(str)), envp);
+		create_tree(tree, str, cr_sgm(0, ft_strlen(str)), data);
 		set_levels_and_head(*tree);
 		if (NULL != *tree && 0 == (*tree)->bene)
 			print_error(1, "error parsing the tree: wrong input");

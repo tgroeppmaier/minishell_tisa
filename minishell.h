@@ -3,20 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 20:49:23 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 18:05:20 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/02 11:57:44 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// -D DEBUG_MODE=1 : 1-debug; 0-performance
+# ifndef DEBUG_MODE
+#  define DEBUG_MODE 0
+# endif
+
+// 0: get_next_line, 1: readline
+# ifndef READLINE_MODE
+#  define READLINE_MODE 0
+# endif
+
+# if (READLINE_MODE == 1)
+#  ifdef SHELL_NAME
+#   undef SHELL_NAME
+#  endif
+#  define SHELL_NAME "Tisa"
+# endif
+
+# if (READLINE_MODE == 0)
+#  ifdef SHELL_NAME
+#   undef SHELL_NAME
+#  endif
+#  define SHELL_NAME "tisa"
+# endif
+
+// 1 for restoring PWD, OLDPWD (like in zsh), 0 for not (like in bash)
+# ifndef RESTORE_PWD_MODE
+#  define RESTORE_PWD_MODE 0
+# endif
+
 # include "libft.h"
 # include <sys/wait.h> // waitpid(-1, NULL, 0);
 # include <errno.h> // for while (wait(NULL!=-1||errno!=ECHILD))
 # include <fcntl.h> // open, O_RDONLY, O_WRONLY
+# include <readline/history.h>
+# include <readline/readline.h> // readline
+# include <stdbool.h> // bool true false
 
 /* do not use the combination GREEN RES, instead use GREEN WHITE, 
 because in the first case pressing TAB and then backslash allows 
@@ -29,7 +61,7 @@ just GREEN with TAB + BACKSLASH allows to enter several printed charachters
 # define BLINKING "\033[5m"
 # define RED "\033[31m"
 # define BUFF_RED "\033[41m"
-# define GREEN "\001\033[32m\002"
+# define GREEN "\033[32m"
 # define BUFF_GREEN "\033[42m"
 # define YELLOW "\033[33m"
 # define BLUE "\033[34m"
@@ -38,21 +70,54 @@ just GREEN with TAB + BACKSLASH allows to enter several printed charachters
 # define GREY "\033[37m"
 # define WHITE "\033[39m"
 
-// -D DEBUG_MODE=1 : for debug; for performance, 0
+# ifndef GREEN_MODE
+#  define GREEN_MODE 1
+# endif
 
-# ifndef DEBUG_MODE
-#  define DEBUG_MODE 0
+# if GREEN_MODE == 1
+#  define OPTGREEN GREEN
+#  define OPTWHITE WHITE
+# elif GREEN_MODE == 0
+#  define OPTGREEN ""
+#  define OPTWHITE ""
 # endif
 
 /* BUGS:
-	- for tabs or spaces returns an error
+	- for tabs or spaces returns an error. FIXED
 	- does not free space for Ctrl+C, Ctrl+\.
 	  Surprisingly, it works for Ctrl+D. But maybe not as expected?
 	  Yes, not as expected.
 	- copying and pasting into tisa minishell makes it directly executed.
 	  copying without newline works. But the normal shell does not do it
 	  anyway.
+	- Timo 1Dec2023: echo "Hi">file.txt will write "Hi", but should write Hi.
+	  So, each not quoted quote should be removed.
+	  This should be done after tokenization is done,
+	  together with expansion of $VARIABLES.
+	- With green welcome message, if you type more than 80 charachters, and then
+	  backslash, you will eat some of the characters which you are not allowed.
+	- running minishell in minishell, and then kill old_shell
+	  causees shell to be infinitely printed.
+	  Doing the same in minishell->bash,
+	  leads to the problem with Enter upon next execution of minishell.
+	  Enter will be interpreted as ^M.
+
+	- env . should give Permission denied, but gives No such file or directory
+	  mkdir new_dir; env new_dir/ or env_new_dir// -- same
 */
+
+/* I first though to include a field t_tree *tree in s_data,
+but there is just one data, and many subtrees (every node is a subtree).
+So it is not clear which tree should correspond to the data.
+Hence, I deleted the pointer to tree. Hence, we should always prototype
+functions to take tree as an argument, not data.*/
+typedef struct s_data
+{
+	char	**envp;
+	char	*working_dir;
+	char	*old_working_dir;
+	int		exit_code;
+}	t_data;
 
 typedef struct s_interval
 {
@@ -70,7 +135,7 @@ typedef struct s_tree
 	struct s_tree	*right_child;
 	struct s_tree	*head;
 	t_list			*list;
-	char			**envp;
+	struct s_data	*data;
 	int				beg;
 	int				end;
 	int				level;
@@ -172,25 +237,32 @@ int		find_last_not_quoted_not_bracketed_setstr(char const *str, \
 //////////////////////////////////////////////
 // show_prompt.c
 void	trim_last_nl(char *str);
-int		show_prompt(char *envp[]);
+int		show_prompt(t_data *data);
 int		do_free_str(char **str);
+
+// show_prompt_readline.c
+void	set_base_msg_tree_bene(char *base_msg, int size, \
+				t_tree **tree, int *bene);
+int		set_welcome_msg(char *welcome_msg, int size, int num);
+int		show_prompt_readline(t_data *data);
+int		clear_history_return_zero(void);
 
 // CREATION OF THE TREE
 //////////////////////////////////////////////
 //--------------------------------------------------------
 // create_tree.c
-int		create_tree(t_tree **tree, char *str, t_sgm sgm, char *envp[]);
+int		create_tree(t_tree **tree, char *str, t_sgm sgm, t_data *data);
 int		do_if_sep(t_tree *tree, int sep_pos, t_node sep);
 int		doifbrackets_in_create_tree(t_tree *tree, t_sgm brackets);
 int		set_separate_pos(char const *str, t_sgm sgm, t_node *sep);
 int		check_input_str_sgm(char const *str, t_sgm sgm);
 
 // create_tree_aux.c
-void	prefill_node(t_tree *tree, char *str, t_sgm sgm, char *envp[]);
+void	prefill_node(t_tree *tree, char *str, t_sgm sgm, t_data *data);
 void	free_tree(t_tree **tree);
 void	print_tree(t_tree *tree);
 void	create_display_free_tree(t_tree **tree, char *str, int mode, \
-							char *envp[]);
+							t_data *data);
 
 // create_tree_find_sep_or_brackets.c
 int		find_sep_semicolon(char const *str, t_sgm sgm, t_node *sep);
@@ -228,9 +300,9 @@ int		wc_pass_quotes(char const *str, char const *quotes, \
 int		wc_free_print_ft_split(char ***tkns_arr, int res, char const *msg);
 
 // ft_split_quotes_tkns.c
-/*static int	init_list_i(t_list **list, int *i, char ***tkns_arr, \
+/* static int	init_list_i(t_list **list, int *i, char ***tkns_arr, \
 						char const *tkns);*/
-//static void	set_b_decrease_i(t_sgm *sgm, int *i);
+/* static void	set_b_decrease_i(t_sgm *sgm, int *i); */
 t_list	*ft_split_quotes_tkns(char const *str, char const *spaces, \
 			char const *tkns, char const *quotes);
 int		pass_tkn(char const *str, char const *const *tkns_arr, \
@@ -253,6 +325,7 @@ int		ft_dopipe_in_childright_exit(t_tree *tree, int pipe_fd[2]);
 // execute_exec1.c
 int		ft_exec_exec(t_tree *tree);
 int		do_in_child_exec_exit(t_tree *tree);
+int		do_clean_and_exit(int res, t_tree *tree);
 
 // execute_exec2.c
 int		ft_exec_exec_no_new_process(t_tree *tree);
@@ -292,5 +365,52 @@ int		do_redirections_other(t_tree *tree, int last_heredoc);
 int		do_redirections_heredoc(t_tree *tree);
 int		do_redirections(t_tree *tree);
 int		is_last_heredoc(t_tree *tree);
+
+// BUILTINS
+//////////////////////////////////////////////
+//--------------------------------------------------------
+// builtin_env.c
+int		set_data(t_data *data, char **envp);
+int		print_env(char **envp);
+int		count_env(char **envp);
+char	**copy_environ(char **envp, int additional_space);
+int		builtin_env(t_tree *tree);
+
+// builtin_unset.c
+void	free_envp(char ***envp);
+void	free_data_except_tree(t_data *data);
+void	remove_var(t_data *data, char *var_name);
+int		builtin_unset(t_tree *tree);
+
+// builtin_main.c
+int		exec_int_function(t_tree *tree);
+
+// builtin_exit.c
+bool	is_in_range(long long num);
+bool	is_valid_int(char *str);
+int		builtin_exit(t_tree *tree);
+
+// builtin_export.c
+int		add_var(char *var_name, t_data *data);
+int		var_index(char *var_name, char **envp);
+/*bool	is_valid_name(char *var_name);*/
+int		update_var(char *var_name, t_data *data);
+int		builtin_export(t_tree *tree);
+
+// builtin_echo.c
+/*static bool		check_n(char *word);*/
+int		builtin_echo(t_tree *tree);
+
+// builtin_pwd.c
+char	*ft_getenv(char *var_name, t_data *data);
+int		builtin_pwd(t_tree *tree);
+
+// builtin_cd.c
+void	set_env_value(t_data *data, char *var_name, char *value);
+//void	update_path(t_data *data);
+/*static int	do_if_failed_cd(char const *path);*/
+/*static void	do_update_var_free_str(char **ptr, t_data *data);*/
+int		change_directory(t_data *data, char const *path);
+int		builtin_cd(t_tree *tree);
 
 #endif // MINISHELL_H

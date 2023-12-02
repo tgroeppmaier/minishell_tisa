@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 19:06:01 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/02/03 22:13:31 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/01/23 19:06:01 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/02 09:39:48 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,12 @@ char	*ft_strjoin(char const *str1, char const *str2)
 	res = allocate(len1, len2);
 	if (res == NULL)
 		return (NULL);
-	index = 0;
-	while (index < len1)
-	{
+	index = -1;
+	while (++index < len1)
 		res[index] = str1[index];
-		++index;
-	}
-	index = 0;
-	while (index < len2)
-	{
+	index = -1;
+	while (++index < len2)
 		res[len1 + index] = str2[index];
-		++index;
-	}
+	res[len1 + len2] = '\0';
 	return (res);
 }

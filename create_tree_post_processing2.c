@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tree_post_processing2.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/15 11:40:25 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/20 10:10:59 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/15 11:40:25 by aminakov          #+#    #+#             */
+/*   Updated: 2023/11/20 10:10:59 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

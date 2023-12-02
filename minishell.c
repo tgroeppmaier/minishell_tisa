@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 18:25:34 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 14:07:33 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/02 18:25:34 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/02 10:01:17 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,18 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
+	t_data	data;
+
 	(void)argv;
 	if (1 != argc)
 		return (print_error(1, "no arguments are allowed"));
-	show_prompt(envp);
+	if (set_data(&data, envp))
+		return (1);
+	if (0 == READLINE_MODE)
+		show_prompt(&data);
+	else
+		show_prompt_readline(&data);
+	free_data_except_tree(&data);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 15:27:53 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/23 22:31:38 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/01/09 15:27:53 by aminakov          #+#    #+#             */
+/*   Updated: 2023/12/01 16:09:16 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define LIBFT_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 64 
+#  define BUFFER_SIZE 256 
 # endif
 
-/*# if (BUFFER_SIZE < 0)
+# if (BUFFER_SIZE < 0)
 #  undef BUFFER_SIZE
 #  define BUFFER_SIZE 0
-# endif*/
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -32,7 +32,7 @@
 # define BLINKING "\033[5m"
 # define RED "\033[31m"
 # define BUFF_RED "\033[41m"
-# define GREEN "\001\033[32m\002"
+# define GREEN "\033[32m"
 # define BUFF_GREEN "\033[42m"
 # define YELLOW "\033[33m"
 # define BLUE "\033[34m"

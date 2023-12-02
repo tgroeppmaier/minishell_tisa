@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Ektin Op Urims <marvin@42.fr>              +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/20 10:04:34 by Ektin Op Urims    #+#    #+#             */
-/*   Updated: 2023/11/29 17:32:34 by Ektin Op Urims   ###   ########.fr       */
+/*   Created: 2023/11/20 10:04:34 by aminakov          #+#    #+#             */
+/*   Updated: 2023/11/29 17:32:34 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,35 +92,37 @@ int	close_pipes_return(int pipe_fd[2], int res, char const *msg)
 int	ft_dopipe_in_childleft_exit(t_tree *tree, int pipe_fd[2])
 {
 	int		res;
-	t_tree	*tree_ptr;
 
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
 	--tree->do_in_child_process;
 	res = ft_execute_tree(tree);
-	do_free_str(&tree->cmd);
-	tree_ptr = tree->head;
-	free_tree(&tree_ptr);
 	if (DEBUG_MODE)
 		ft_printf_fd(2, "In child left are going to exit with [%d]\n", res);
-	exit(res);
+	exit(do_clean_and_exit(res, tree));
 }
+/*	do_free_str(&tree->cmd);
+	free_data_except_tree(tree->data);
+	tree_ptr = tree->head;
+	free_tree(&tree_ptr);
+	exit(res); */
 
 int	ft_dopipe_in_childright_exit(t_tree *tree, int pipe_fd[2])
 {
 	int		res;
-	t_tree	*tree_ptr;
 
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	--tree->do_in_child_process;
 	res = ft_execute_tree(tree);
-	do_free_str(&tree->cmd);
-	tree_ptr = tree->head;
-	free_tree(&tree_ptr);
 	if (DEBUG_MODE)
 		ft_printf_fd(2, "In child right are going to exit with [%d]\n", res);
-	exit(res);
+	exit(do_clean_and_exit(res, tree));
 }
+/*	do_free_str(&tree->cmd);
+	free_data_except_tree(tree->data);
+	tree_ptr = tree->head;
+	free_tree(&tree_ptr);
+	exit(res);*/
