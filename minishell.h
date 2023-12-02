@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by Ektin Op Ur       #+#    #+#             */
-/*   Updated: 2023/12/01 16:59:25 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/01 21:06:10 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,31 +199,10 @@ int		set_brackets_pos(char const *str, t_sgm sgm, t_sgm *brackets);
 
 // create_tree_post_processing1.c
 int		is_str_empty(char const *str, t_sgm sgm);
-void	set_levels_int	parse_quotes(char const *str, t_sgm sgm)
-{
-	int		pos_open;
-	int		pos_close;
-	char	quote;
-
-	if (NULL == str || sgm.b >= sgm.e)
-	{
-		return (0);
-		return (print_error(0, "nothing to be done in parse_quotes"));
-	}
-	if (sgm.b < 0 || (int)ft_strlen(str) < sgm.e)
-		return (print_error(1, "wrong input in parse_quotes"));
-	pos_open = get_quote_pos(str, sgm);
-	if (-1 == pos_open)
-		return (0);
-	quote = str[pos_open];
-	pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
-	if (-1 == pos_close && '\'' == quote)
-		return (print_error(2, "parsing error: quote"));
-	if (-1 == pos_close && '"' == quote)
-		return (print_error(2, "parsing error: dquote \""));
-	return (parse_quotes(str, cr_sgm(pos_close + 1, sgm.e)));
-}
-r_have_mistakes(t_tree *tree);
+void	set_levels_and_head(t_tree *tree);
+void	retrieve_bene(t_tree *tree);
+int		is_tree_empty(t_tree *tree);
+int		does_grammar_have_mistakes(t_tree *tree);
 
 // create_tree_pos_processing2.c
 int		does_list_have_mistakes(t_list *list);
@@ -231,7 +210,6 @@ int		do_exec_nodes_have_mistakes(t_tree *tree);
 
 // processing_of_exec_nodes.c
 int		expand_exec_nodes(t_tree *tree);
-void expand_quotes(t_tree *tree);
 
 // separators.c
 int		len_sep(int sep);
