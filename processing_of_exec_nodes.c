@@ -38,14 +38,24 @@ char	*remove_outer_quotes(char *str)
 	char	*tmp1;
 	char	*tmp2;
 	t_sgm	sgm;
-	char	*new_str = NULL;
+	char	*new_str;
 	int 	i = 0;
-	// int		len = 0;
-	// char	*new_str_save = new_str;
-	sgm.e = (int)ft_strlen(str);
 
-	if (sgm.e <= 2)
+	sgm.e = (int)ft_strlen(str);
+	sgm.b = 0;
+	if (sgm.e < 2 || -1 == get_quote_pos(str, sgm))
 		return (ft_strdup(str));
+	pos_open = get_quote_pos(str, sgm);
+	if (pos_open != -1)
+	{
+		quote = str[pos_open];
+		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
+		if(pos_close == pos_open + 1)
+		{
+			// ft_printf("test:%sword", ft_strdup(""));
+			return(ft_strdup(""));
+		}
+	}
 	new_str = ft_strdup("");
 	while(i < sgm.e)
 	{
@@ -53,11 +63,17 @@ char	*remove_outer_quotes(char *str)
 		pos_open = get_quote_pos(str, sgm);
 		if (-1 == pos_open)
 		{
+			tmp1 = ft_strdup(str + i);
+			tmp2 = ft_strjoin(new_str, tmp1);
 			free(new_str);
-			return (ft_strdup(str));
+			new_str = tmp2;
+			free(tmp1);
+			return (new_str);
 		}
 		quote = str[pos_open];
 		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
+		free(new_str);
+		new_str = ft_strndup(str, pos_open);
 		tmp1 = ft_strndup(str + pos_open + 1, pos_close - pos_open - 1);
 		tmp2 = new_str;
 		new_str = ft_strjoin(new_str, tmp1);
@@ -66,45 +82,7 @@ char	*remove_outer_quotes(char *str)
 		i = pos_close + 1;
 	}
 	return(new_str);
-	// return (parse_quotes(str, cr_sgm(pos_close + 1, sgm.e)));
 }
-// char *remove_outer_quotes(char *str) {
-//     int pos_open, pos_close;
-//     char quote;
-//     char *tmp1;
-//     char *tmp2;
-//     t_sgm sgm;
-//     char *new_str = ft_strdup("");  // Initial allocation
-//     int i = 0;
-//     sgm.e = (int)ft_strlen(str);
-
-//     if (sgm.e <= 2) {
-//         free(new_str);  // Free initial allocation
-//         return (ft_strdup(str));
-//     }
-//     while (i < sgm.e) {
-//         sgm.b = i;
-//         pos_open = get_quote_pos(str, sgm);
-//         if (-1 == pos_open) {
-//             free(new_str);  // Free initial allocation
-//             return (ft_strdup(str));
-//         }
-//         quote = str[pos_open];
-//         pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
-//         if (-1 == pos_close) {
-//             free(new_str);  // Free allocated memory
-//             return NULL;  // Handle error appropriately
-//         }
-//         tmp1 = ft_strndup(str + pos_open + 1, pos_close - pos_open - 1);
-//         tmp2 = new_str;
-//         new_str = ft_strjoin(new_str, tmp1);
-//         free(tmp1);
-//         free(tmp2);
-//         i = pos_close + 1;
-//     }
-//     return new_str;
-// }
-
 
 void expand_quotes(t_tree *tree)
 {
@@ -117,6 +95,7 @@ void expand_quotes(t_tree *tree)
 		tmp = ft_strdup(current->word);
 		free(current->word);
 		current->word = remove_outer_quotes(tmp);
+		ft_printf("%s\n", current->word);
 		current = current->next;
 		free(tmp);
 	}
