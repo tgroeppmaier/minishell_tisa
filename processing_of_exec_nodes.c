@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 22:02:27 by Ektin Op Ur       #+#    #+#             */
-/*   Updated: 2023/12/01 21:09:04 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/03 11:06:07 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +90,8 @@ char *remove_outer_quotes(char *str)
     int i = 0;
 
 	new_str = ft_strdup("");
+	if(!new_str)
+		return(NULL);
     sgm.e = (int)ft_strlen(str);
     if (sgm.e < 2) 
 	{
@@ -138,12 +139,100 @@ void expand_quotes(t_tree *tree)
 	current = tree->list;
 	while(current)
 	{
-		tmp = ft_strdup(current->word);
+		tmp = remove_outer_quotes(current->word);
+		if(tmp == NULL) 
+		{
+			ft_printf_fd(2, "error removing outer quotes\n"); // what to do in this case?
+			current = current->next;
+			continue;
+		}
 		free(current->word);
-		current->word = remove_outer_quotes(tmp);
-		// ft_printf("%s\n", current->word);    // for testing
+		current->word = tmp;
 		current = current->next;
-		free(tmp);
+		// ft_printf("%s\n", current->word);    // for testing
+	}
+}
+
+
+bool in_single_quotes(int n, char *input) 
+{
+    int i = 0;
+    char quote = '\'';
+    bool inquote = false;
+
+    while (input[i]) 
+	{
+        if (input[i] == quote) 
+		{
+            if (inquote == false) 
+			{
+                inquote = true;
+                quote = input[i];
+            } 
+			else if (input[i] == quote) 
+			{
+				if (i == n) 
+					return true;
+                inquote = false;
+                quote = '\0';
+            }
+        }
+		if(i == n)
+			return(inquote);
+
+        
+        i++;
+    }
+    return false;
+}
+
+int get_var_len(char *str)
+{
+	int i;
+
+	i = 0;
+	if(!ft_isalpha(str[i] && str[i] != '_'))
+		return(i);
+	while(str[i])
+	{
+		if(!ft_isalpha(str[i] && str[i] != '_'))
+			return(i);
+		i++;
+	}
+	return(i);
+}
+
+char *expand_variables(char *str)
+{
+	int i;
+	int pos_open, pos_close;
+    char quote;
+    char *tmp1;
+    t_sgm sgm;
+    char *new_str;
+    int i = 0;
+	int len;
+
+    sgm.e = (int)ft_strlen(str);
+	sgm.b = 0;
+
+	i = 0;
+	while(str[i])
+	{
+		sgm.b += i;
+		pos_open = get_quote_pos(str, sgm);
+		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
+		quote = str[pos_open];
+		if(quote == '\'')
+		{
+			i = pos_close + 1;
+			continue;
+		}
+		if(str[i] == '$')
+		{
+			len = get_var_len(str + i + 1);
+		}
+		
 	}
 }
 

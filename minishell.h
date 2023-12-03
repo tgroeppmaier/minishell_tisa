@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/02 11:57:44 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/03 08:27:48 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # include <sys/wait.h> // waitpid(-1, NULL, 0);
 # include <errno.h> // for while (wait(NULL!=-1||errno!=ECHILD))
 # include <fcntl.h> // open, O_RDONLY, O_WRONLY
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h> // readline
 # include <stdbool.h> // bool true false
