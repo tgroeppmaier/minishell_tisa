@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/03 08:27:48 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/03 17:07:31 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct s_tree
 	struct s_tree	*right_child;
 	struct s_tree	*head;
 	t_list			*list;
+	t_list			*expand;
 	struct s_data	*data;
 	int				beg;
 	int				end;

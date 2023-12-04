@@ -6,23 +6,23 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 22:02:27 by Ektin Op Ur       #+#    #+#             */
-/*   Updated: 2023/12/03 11:06:07 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/04 10:06:58 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "string.h"
 
-char	*ft_strndup(const char *s1, size_t n)
-{
-	char	*str;
+// char	*ft_strndup(const char *s1, size_t n)
+// {
+// 	char	*str;
 
-	str = malloc(n + 1);
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1, n + 1);
-	return (str);
-}
+// 	str = malloc(n + 1);
+// 	if (!str)
+// 		return (NULL);
+// 	ft_strlcpy(str, s1, n + 1);
+// 	return (str);
+// }
 
 // char	*remove_outer_quotes(char *str)
 // {
@@ -153,7 +153,6 @@ void expand_quotes(t_tree *tree)
 	}
 }
 
-
 bool in_single_quotes(int n, char *input) 
 {
     int i = 0;
@@ -186,54 +185,15 @@ bool in_single_quotes(int n, char *input)
     return false;
 }
 
-int get_var_len(char *str)
-{
-	int i;
 
-	i = 0;
-	if(!ft_isalpha(str[i] && str[i] != '_'))
-		return(i);
-	while(str[i])
-	{
-		if(!ft_isalpha(str[i] && str[i] != '_'))
-			return(i);
-		i++;
-	}
-	return(i);
-}
-
-char *expand_variables(char *str)
-{
-	int i;
-	int pos_open, pos_close;
-    char quote;
-    char *tmp1;
-    t_sgm sgm;
-    char *new_str;
+void test_list(t_tree *tree) {
+    char *str[] = {"one", "two", "three", NULL};  // Static array of strings
     int i = 0;
-	int len;
 
-    sgm.e = (int)ft_strlen(str);
-	sgm.b = 0;
-
-	i = 0;
-	while(str[i])
-	{
-		sgm.b += i;
-		pos_open = get_quote_pos(str, sgm);
-		pos_close = find_symb(str, quote, cr_sgm(pos_open + 1, sgm.e));
-		quote = str[pos_open];
-		if(quote == '\'')
-		{
-			i = pos_close + 1;
-			continue;
-		}
-		if(str[i] == '$')
-		{
-			len = get_var_len(str + i + 1);
-		}
-		
-	}
+    while (str[i] != NULL) {
+        add_to_list(tree, str[i], 1, strlen(str[i]));  // Use strlen to get the length of each string
+        i++;
+    }
 }
 
 int	expand_exec_nodes(t_tree *tree)
@@ -255,6 +215,8 @@ int	expand_exec_nodes(t_tree *tree)
 	}
 	expand_exec_nodes(tree->left_child);
 	expand_exec_nodes(tree->right_child);
-	expand_quotes(tree);
+	// expand_quotes(tree);
+	expand_var_list(tree);
+	ft_print_list(tree->expand);
 	return (0);
 }

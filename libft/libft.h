@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:27:53 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/03 13:26:08 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/04 10:08:23 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void		*ft_calloc(t_size_t num, t_size_t size);
 
 //ft_strdup
 char		*ft_strdup(const char *str);
+char		*ft_strndup(const char *s1, size_t n);
 
 //////////////////////////////////
 //////////////////////////////////
