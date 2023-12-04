@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 11:40:25 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/03 18:27:35 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:16:08 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	prefill_node(t_tree *tree, char *str, t_sgm sgm, t_data *data)
 	tree->right_child = NULL;
 	tree->head = NULL;
 	tree->list = NULL;
-	tree->expand = NULL;
+	// tree->expand = NULL;
 	tree->beg = sgm.b;
 	tree->end = sgm.e;
 	tree->level = -1;

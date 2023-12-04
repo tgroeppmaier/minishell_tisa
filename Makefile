@@ -6,7 +6,7 @@
 #    By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/02 18:22:10 by aminakov          #+#    #+#              #
-#    Updated: 2023/12/03 08:33:41 by tgroeppm         ###   ########.fr        #
+#    Updated: 2023/12/04 17:17:21 by tgroeppm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,8 @@ SRC +=	builtin_env.c \
 	builtin_echo.c \
 	builtin_pwd.c \
 	builtin_cd.c \
+
+SRC += expand_variables.c \
 
 HEADER = minishell.h
 

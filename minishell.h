@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/03 17:07:31 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:15:02 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ typedef struct s_tree
 	struct s_tree	*right_child;
 	struct s_tree	*head;
 	t_list			*list;
-	t_list			*expand;
+	// t_list			*expand;
 	struct s_data	*data;
 	int				beg;
 	int				end;
@@ -284,6 +284,9 @@ int		do_exec_nodes_have_mistakes(t_tree *tree);
 
 // processing_of_exec_nodes.c
 int		expand_exec_nodes(t_tree *tree);
+
+// expand_variables.c
+void	expand_variables(t_tree *tree);
 
 // separators.c
 int		len_sep(int sep);

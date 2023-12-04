@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 20:31:16 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/04 10:07:15 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/04 15:22:43 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strdup(const char *str)
 
 char	*ft_strndup(const char *s1, size_t n)
 {
-	char *str;
+	char	*str;
 
 	str = malloc(n + 1);
 	if (!str)
