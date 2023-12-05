@@ -5,6 +5,9 @@
 #include <readline/readline.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <signal.h>
+
+volatile sig_atomic_t sigint_received = 0;
 
 void	exec_int_function(char *input, t_data *data)
 {
