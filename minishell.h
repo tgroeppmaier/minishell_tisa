@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/04 18:15:02 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/06 08:55:54 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,9 @@ int		expand_exec_nodes(t_tree *tree);
 
 // expand_variables.c
 void	expand_variables(t_tree *tree);
+
+// expand_quotes.c
+void	expand_quotes(t_tree *tree);
 
 // separators.c
 int		len_sep(int sep);
