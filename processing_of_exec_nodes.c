@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 22:02:27 by Ektin Op Ur       #+#    #+#             */
-/*   Updated: 2023/12/07 13:00:18 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/07 20:33:34 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	expand_exec_nodes(t_tree *tree)
 	expand_exec_nodes(tree->left_child);
 	expand_exec_nodes(tree->right_child);
 	expand_variables(tree);
-	// expand_quotes(tree);
+	expand_quotes(tree);
 	// expand_var_list(tree);
 	// ft_print_list(tree->list); // for testing
 	return (0);
