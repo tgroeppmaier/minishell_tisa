@@ -120,6 +120,7 @@ char	*get_expand_str(t_tree *tree, char *str)
 	expand[0] = '\0';
 	while (k <= len && str[i])
 	{
+		ft_printf("begin loop str[i] = %c\n", str[i]);
 		if (str[i] != '$' || in_single_quotes(str, i))
 		{
 			expand[k] = str[i];
@@ -128,18 +129,21 @@ char	*get_expand_str(t_tree *tree, char *str)
 			expand[k] = '\0';
 			continue ;
 		}
-		i++;
+		i++;  // we move past $
 		printf("k: %d, i: %d\n", k, i);
 		var_name = get_var_name(str + i);
 		ft_printf("var name: %s\n", var_name);
 		if(var_name == NULL)
 		{
-			if(str[i + 1] == '"' || str[i + 1] == '\'')
+			// i++;
+			if(str[i] == '"' || str[i] == '\'')
 			{
+				ft_printf("are we getting here?\n");
 				expand[k] = str[i];
 				k++;
-			}
 				i++;
+				expand[k] = '\0';
+			}
 		} // means invalid char after $, we skip $ and that char
 		else
 		{
@@ -147,12 +151,15 @@ char	*get_expand_str(t_tree *tree, char *str)
 			if(var_value != NULL)
 			{
 				ft_printf("var value: %s\n", var_value);
-				expand[k] = '\0';
-				k += ft_strlcat(expand, var_value, len);
+				k = ft_strlcat(expand, var_value, len);
+				ft_printf("k = %d\n", k);
+				ft_printf("char = %c\n", expand[k]);
 			}
 			i += ft_strlen(var_name);
+			ft_printf("i = %d\n", i);
+			ft_printf("str[i] = %c\n", str[i]);
 			free(var_name);
-			i++;
+			// i++;
 		}
 	}
 	expand[k] = '\0';
