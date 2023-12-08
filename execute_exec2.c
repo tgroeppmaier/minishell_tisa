@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   execute_exec2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/02 02:23:54 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/08 16:12:39 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//do_free_str(&tree->cmd);
-//tree_ptr = tree->head;
-//free_tree(&tree_ptr);
+// do_free_str(&tree->cmd);
+// tree_ptr = tree->head;
+// free_tree(&tree_ptr);
 
 int	ft_exec_exec_no_new_process(t_tree *tree)
 {
@@ -78,21 +78,50 @@ char	*get_path_for_cmd(char *cmd, char *envp[])
 }
 
 // before realizing also the paths, so not only taking from PATH variable
+
+// int	ft_execute_cmd_path(char *cmd, char *envp[])
+// {
+// 	char	*path;
+// 	char	**cmd_vector;
+
+// 	cmd_vector = ft_split(cmd, ' ');
+// 	path = get_path_for_cmd(cmd_vector[0], envp);
+// 	if (!path)
+// 	{
+// 		free_split(cmd_vector);
+// 		return (1);
+// 	}
+// 	execve(path, cmd_vector, envp);
+// 	ft_clear_path(&path);
+// 	free_split(cmd_vector);
+// 	return (0);
+// }
+
 int	ft_execute_cmd_path(char *cmd, char *envp[])
 {
 	char	*path;
 	char	**cmd_vector;
 
-	cmd_vector = ft_split(cmd, ' ');
+	cmd_vector = (char **)malloc(sizeof(char *) * 2);
+	if (cmd_vector == NULL)
+		return (1);
+	cmd_vector[0] = ft_strdup(cmd);
+	if (cmd_vector[0] == NULL)
+	{
+		free(cmd_vector);
+		return (1);
+	}
+	cmd_vector[1] = NULL;
 	path = get_path_for_cmd(cmd_vector[0], envp);
 	if (!path)
 	{
-		free_split(cmd_vector);
+		free(cmd_vector[0]);
+		free(cmd_vector);
 		return (1);
 	}
-	execve(path, cmd_vector, envp);
-	ft_clear_path(&path);
-	free_split(cmd_vector);
+	free(path);
+	free(cmd_vector[0]);
+	free(cmd_vector);
 	return (0);
 }
 
