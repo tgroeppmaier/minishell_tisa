@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/08 16:12:39 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/08 20:21:36 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,51 +79,51 @@ char	*get_path_for_cmd(char *cmd, char *envp[])
 
 // before realizing also the paths, so not only taking from PATH variable
 
-// int	ft_execute_cmd_path(char *cmd, char *envp[])
-// {
-// 	char	*path;
-// 	char	**cmd_vector;
-
-// 	cmd_vector = ft_split(cmd, ' ');
-// 	path = get_path_for_cmd(cmd_vector[0], envp);
-// 	if (!path)
-// 	{
-// 		free_split(cmd_vector);
-// 		return (1);
-// 	}
-// 	execve(path, cmd_vector, envp);
-// 	ft_clear_path(&path);
-// 	free_split(cmd_vector);
-// 	return (0);
-// }
-
 int	ft_execute_cmd_path(char *cmd, char *envp[])
 {
 	char	*path;
 	char	**cmd_vector;
 
-	cmd_vector = (char **)malloc(sizeof(char *) * 2);
-	if (cmd_vector == NULL)
-		return (1);
-	cmd_vector[0] = ft_strdup(cmd);
-	if (cmd_vector[0] == NULL)
-	{
-		free(cmd_vector);
-		return (1);
-	}
-	cmd_vector[1] = NULL;
+	cmd_vector = ft_split(cmd, ' ');
 	path = get_path_for_cmd(cmd_vector[0], envp);
 	if (!path)
 	{
-		free(cmd_vector[0]);
-		free(cmd_vector);
+		free_split(cmd_vector);
 		return (1);
 	}
-	free(path);
-	free(cmd_vector[0]);
-	free(cmd_vector);
+	execve(path, cmd_vector, envp);
+	ft_clear_path(&path);
+	free_split(cmd_vector);
 	return (0);
 }
+
+// int	ft_execute_cmd_path(char *cmd, char *envp[])
+// {
+// 	char	*path;
+// 	char	**cmd_vector;
+
+// 	cmd_vector = (char **)malloc(sizeof(char *) * 2);
+// 	if (cmd_vector == NULL)
+// 		return (1);
+// 	cmd_vector[0] = ft_strdup(cmd);
+// 	if (cmd_vector[0] == NULL)
+// 	{
+// 		free(cmd_vector);
+// 		return (1);
+// 	}
+// 	cmd_vector[1] = NULL;
+// 	path = get_path_for_cmd(cmd_vector[0], envp);
+// 	if (!path)
+// 	{
+// 		free(cmd_vector[0]);
+// 		free(cmd_vector);
+// 		return (1);
+// 	}
+// 	free(path);
+// 	free(cmd_vector[0]);
+// 	free(cmd_vector);
+// 	return (0);
+// }
 
 /*if (NULL == cmd)
 		return (print_error(1, "NULL in ft_execute_cmd"));
