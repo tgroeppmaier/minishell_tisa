@@ -102,23 +102,30 @@ int	get_expand_len(t_tree *tree, char *str, int i, int len)
 	return (len);
 }
 
+int skip_copy(int *i, int *len, char *str)
+{
+	while(str[*i])
+	{
+		if(str[*i] == '$' && !in_single_quotes(str, *i))
+		{
+			if(str[*i + 1] && str[*i + 1] != '"' && str[*i + 1] != '\'')
+				return 0;
+		}
+		(*len)++;
+		(*i)++;
+	}
+	return(1);
+}
 
-char	*get_expand_str(t_tree *tree, char *str)
+void expand_str(t_tree *tree, char *str, char *expand, int len)
 {
 	int		i;
 	int		k;
-	int		len;
 	char	*var_name;
 	char	*var_value;
-	char	*expand;
 
 	i = 0;
 	k = 0;
-	len = get_expand_len(tree, str, 0, 1);
-	ft_printf("total len = %d\n", len);
-	ft_printf("strlen: %d\n", ft_strlen(str));
-	expand = (char *)malloc(sizeof(char) * (len + 1));
-	expand[0] = '\0';
 	while (k <= len && str[i])
 	{
 		// ft_printf("begin loop str[i] = %c\n", str[i]);
@@ -163,20 +170,30 @@ char	*get_expand_str(t_tree *tree, char *str)
 		}
 	}
 	expand[k] = '\0';
-	return (expand);
+	// return (expand);
 }
 
 
 void	expand_variables(t_tree *tree)
 {
 	t_list	*current;
-	char	*tmp;
+	char	*expand;
+	int		len;
 
 	current = tree->list;
 	while (current)
 	{
-		tmp = get_expand_str(tree, current->word);
-		if (tmp == NULL)
+		len = get_expand_len(tree, current->word, 0, 1);
+		// ft_printf("total len = %d\n", len);
+		expand = (char *)malloc(sizeof(char) * (len + 1)); // this will be made bigger after all test to have some margin of error
+		if(expand == NULL)
+		{
+			ft_printf_fd(2, "error in malloc\n"); //this needs to be adjusted
+			return;
+		}
+		expand[0] = '\0';
+		expand_str(tree, current->word, expand, len); // this function does not return but modifies expand
+		if (expand == NULL)
 		{
 			ft_printf_fd(2, "error expanding variables\n");
 				// what to do in this case?
@@ -184,10 +201,8 @@ void	expand_variables(t_tree *tree)
 			continue ;
 		}
 		free(current->word);
-		current->word = tmp;
-		// ft_printf("current word: %s\n", current->word);
+		current->word = expand;
 		current = current->next;
-		// ft_printf("%s\n", current->word);    // for testing
 	}
 }
 
