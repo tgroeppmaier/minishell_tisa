@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:25:34 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/02 10:01:17 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/09 13:43:23 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 
+volatile sig_atomic_t sigint_received = 0;
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_data	data;
 
+	signal(SIGINT, handle_sigint);
 	(void)argv;
 	if (1 != argc)
 		return (print_error(1, "no arguments are allowed"));

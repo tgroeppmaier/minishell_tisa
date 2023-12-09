@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/09 09:06:45 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/09 13:41:07 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # include <readline/history.h>
 # include <readline/readline.h> // readline
 # include <stdbool.h> // bool true false
+# include <signal.h>
 
 /* do not use the combination GREEN RES, instead use GREEN WHITE, 
 because in the first case pressing TAB and then backslash allows 
@@ -112,6 +113,9 @@ but there is just one data, and many subtrees (every node is a subtree).
 So it is not clear which tree should correspond to the data.
 Hence, I deleted the pointer to tree. Hence, we should always prototype
 functions to take tree as an argument, not data.*/
+
+extern volatile sig_atomic_t sigint_received;
+
 typedef struct s_data
 {
 	char	**envp;
@@ -425,5 +429,8 @@ void	set_env_value(t_data *data, char *var_name, char *value);
 /*static void	do_update_var_free_str(char **ptr, t_data *data);*/
 int		change_directory(t_data *data, char const *path);
 int		builtin_cd(t_tree *tree);
+
+// signals.c
+void	handle_sigint(int sig);
 
 #endif // MINISHELL_H

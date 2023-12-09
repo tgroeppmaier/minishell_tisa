@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   show_prompt_readline.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:10:04 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/01 22:08:39 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/09 13:47:39 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_base_msg_tree_bene(char *base_msg, int size, \
-				t_tree **tree, int *bene)
+void	set_base_msg_tree_bene(char *base_msg, int size, t_tree **tree,
+		int *bene)
 {
 	char	*char_ptr;
 
@@ -30,7 +30,7 @@ void	set_base_msg_tree_bene(char *base_msg, int size, \
 		*bene = 1;
 }
 
-//edge is 3 for printing number of the command
+// edge is 3 for printing number of the command
 int	set_welcome_msg(char *welcome_msg, int size, int num)
 {
 	char	*char_ptr;
@@ -41,8 +41,8 @@ int	set_welcome_msg(char *welcome_msg, int size, int num)
 	if (NULL == welcome_msg)
 		return (print_error(1, "NULL msg in set_welcome_msg"));
 	ft_strlcpy(last_symbs_of_shell_names, "a", 64);
-	pos = find_last_setsymb(welcome_msg, last_symbs_of_shell_names, \
-					cr_sgm(0, ft_strlen(welcome_msg)));
+	pos = find_last_setsymb(welcome_msg, last_symbs_of_shell_names, cr_sgm(0,
+				ft_strlen(welcome_msg)));
 	if (-1 == pos)
 		return (print_error(2, "wrong msg in set_welcome_msg"));
 	welcome_msg[pos + 1] = '\0';
@@ -69,8 +69,16 @@ int	show_prompt_readline(t_data *data)
 	set_base_msg_tree_bene(welcome_msg, sizeof(welcome_msg), &tree, &bene);
 	while (bene++)
 	{
+		if (sigint_received)
+			sigint_received = 0;
 		set_welcome_msg(welcome_msg, sizeof(welcome_msg), bene - 1);
 		str = readline(welcome_msg);
+		if (str == NULL)
+		{
+			if (sigint_received)
+				continue ; // Signal was received, loop again
+			break ; // Otherwise, NULL str means EOF, exit the loop
+		}
 		if (0 != parse_all(str) && 1 == do_free_str(&str))
 			continue ;
 		if (0 == is_str_empty(str, cr_sgm(0, ft_strlen(str))))
