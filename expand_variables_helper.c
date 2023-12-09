@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:32:36 by tgroeppm          #+#    #+#             */
-/*   Updated: 2023/12/08 20:35:52 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/09 09:07:38 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_var_name(char *str)
 }
 
 /* skips over characters that are not $ or $ followed by quotes
-or $ within single quotes and increment len */
+or $ within single quotes and increments len */
 
 int	skip_count(int *i, int *len, char *str)
 {
@@ -56,12 +56,6 @@ int	skip_count(int *i, int *len, char *str)
 }
 
 /* i and len are only passed here because of norminette. i = 0, len = 1 */
-/* if first character after $ is not valid (A-Z,
-	a-z or '_') it removes $ and that character
-it takes the name as variable name,
-	as long as the following characters are valid (A-Z, a-z, 0-9, '_' )
-it takes out these characters and replaces it with the variable value. if the variable does not exist,
-these characters will be deleted*/
 
 int	get_expand_len(t_tree *tree, char *str, int i, int len)
 {
@@ -77,7 +71,7 @@ int	get_expand_len(t_tree *tree, char *str, int i, int len)
 		if (!str[++i])
 			return (len);
 		var_name = get_var_name(str + i);
-		if (var_name == NULL) // means invalid char after $
+		if (var_name == NULL)
 			i++;
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/08 20:35:48 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/09 09:06:45 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ void	expand_variables(t_tree *tree);
 bool	in_single_quotes(const char *str, int index);
 
 // expand_variables_helper.c
-int	get_expand_len(t_tree *tree, char *str, int i, int len);
+int		get_expand_len(t_tree *tree, char *str, int i, int len);
 char	*get_var_name(char *str);
 
 // expand_quotes.c

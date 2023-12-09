@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:32:47 by tgroeppm          #+#    #+#             */
-/*   Updated: 2023/12/08 20:32:48 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/09 09:05:16 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ int	skip_copy(int *i, int *k, char *str, char *expand)
 	return (1);
 }
 
+/* if first character after $ is not valid (A-Z, a-z or '_') it removes $ and
+that character; it takes the name as variable name, as long as the following
+characters are valid (A-Z, a-z, 0-9, '_' ). it takes out these characters and
+replaces it with the variable value. if the variable does not exist,
+these characters will be deleted*/
+
 void	expand_str(t_tree *tree, char *str, char *expand, int len)
 {
 	int		i;
@@ -105,7 +111,6 @@ void	expand_variables(t_tree *tree)
 		}
 		expand[0] = '\0';
 		expand_str(tree, current->word, expand, len);
-		// this function does not return but modifies expand
 		free(current->word);
 		current->word = expand;
 		current = current->next;
