@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:10:04 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/09 13:47:39 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/10 09:10:23 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,15 @@ int	show_prompt_readline(t_data *data)
 	set_base_msg_tree_bene(welcome_msg, sizeof(welcome_msg), &tree, &bene);
 	while (bene++)
 	{
-		if (sigint_received)
+		if (sigint_received) // reset previously received signal
 			sigint_received = 0;
 		set_welcome_msg(welcome_msg, sizeof(welcome_msg), bene - 1);
 		str = readline(welcome_msg);
 		if (str == NULL)
 		{
-			if (sigint_received)
+			if (sigint_received == 1)
 				continue ; // Signal was received, loop again
+			write(1, "exit\n", 5);
 			break ; // Otherwise, NULL str means EOF, exit the loop
 		}
 		if (0 != parse_all(str) && 1 == do_free_str(&str))
