@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 13:16:15 by tgroeppm          #+#    #+#             */
-/*   Updated: 2023/12/10 17:27:06 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/10 22:14:45 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,3 +22,15 @@ void	handle_sigint(int sig)
 	rl_replace_line("", 0);        // Clear the current line
 	rl_redisplay();                // Redisplay the prompt
 }
+
+void	handle_sigquit(int sig)
+{
+	(void)sig;
+	sigint_received = SIGQUIT_RECEIVED;
+	write(1, "Quit (core dumped)\n", 19);
+	exit(EXIT_FAILURE); // Or handle as required
+}
+
+		// if (sigint_received == SIGQUIT_RECEIVED)
+		// {
+		// }

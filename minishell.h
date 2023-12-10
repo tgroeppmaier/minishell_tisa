@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 09:08:54 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/10 22:17:03 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,10 @@ just GREEN with TAB + BACKSLASH allows to enter several printed charachters
 #  define OPTGREEN ""
 #  define OPTWHITE ""
 # endif
+
+# define NO_SIGNAL 0
+# define SIGINT_RECEIVED 1
+# define SIGQUIT_RECEIVED 2
 
 /* BUGS:
 	- for tabs or spaces returns an error. FIXED
@@ -432,5 +436,6 @@ int		builtin_cd(t_tree *tree);
 
 // signals.c
 void	handle_sigint(int sig);
+void	handle_sigquit(int sig);
 
 #endif // MINISHELL_H

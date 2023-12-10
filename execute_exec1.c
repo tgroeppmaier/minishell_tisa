@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_exec1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/02 02:23:12 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/10 22:04:59 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	ft_exec_exec(t_tree *tree)
 		return (print_error(3, "fork failed ft_exec_exec"));
 	if (0 == child)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		do_in_child_exec_exit(tree);
 	}
 	return (wait_for_all_return_chosen(child));

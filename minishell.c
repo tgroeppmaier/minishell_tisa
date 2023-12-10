@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:25:34 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 09:08:50 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/10 21:43:21 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_data	data;
 
 	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	(void)argv;
 	if (1 != argc)
 		return (print_error(1, "no arguments are allowed"));
