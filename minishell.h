@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 18:39:57 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/11 21:54:40 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 # include <readline/history.h>
 # include <readline/readline.h> // readline
 # include <stdbool.h> // bool true false
-//# include <signal.h> // signals. But already in sys/wait.h
+# include <signal.h> // signals. But already in sys/wait.h
 
 /* do not use the combination GREEN RES, instead use GREEN WHITE, 
 because in the first case pressing TAB and then backslash allows 
@@ -480,5 +480,8 @@ int		get_varname_len(char *str);
 char	*get_var_name(char *str);
 int		skip_count(int *i, int *len, char *str);
 int		get_expand_len(t_tree *tree, char *str, int i, int len);
+
+// expand_exit_code.c
+void	expand_exit(t_tree *tree, int exit_code);
 
 #endif // MINISHELL_H

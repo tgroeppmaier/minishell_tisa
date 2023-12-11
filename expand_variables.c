@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:32:47 by tgroeppm          #+#    #+#             */
-/*   Updated: 2023/12/11 19:39:34 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/11 22:03:10 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	expand_variables_all_tree(t_tree *tree)
 {
 	if (!tree)
 		return ;
+	expand_exit(tree, tree->data->exit_code);
 	expand_variables_all_tree(tree->left_child);
 	expand_variables(tree);
 	expand_variables_all_tree(tree->right_child);

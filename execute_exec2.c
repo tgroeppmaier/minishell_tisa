@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_exec2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 11:04:48 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/11 21:34:20 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_execute_cmd_path(char **vector_cmd, char *envp[])
 		if (DEBUG_MODE)
 			ft_printf_fd(2, "path did not work. cmd is [%s]\n", vector_cmd[0]);
 		free_split(vector_cmd);
-		return (1);
+		return (127);
 	}
 	execve(path, vector_cmd, envp);
 	ft_clear_path(&path);
@@ -138,10 +138,10 @@ int	ft_execute_cmd(char **vector_cmd, char *envp[])
 	path = vector_cmd[0];
 	vector_cmd[0] = ptr_last_slash + 1;
 	if (0 != access(path, F_OK))
-		return (redef_clear_in_exec(1, vector_cmd, path, \
+		return (redef_clear_in_exec(2, vector_cmd, path, \
 					"No such file or directory"));
 	else if (0 == access(path, F_OK) && 0 != access(path, X_OK))
-		return (redef_clear_in_exec(2, vector_cmd, path, "permission denied"));
+		return (redef_clear_in_exec(126, vector_cmd, path, "permission denied"));
 	execve(path, vector_cmd, envp);
 	vector_cmd[0] = path;
 	ft_err_clear_ptr(NULL, vector_cmd, path, "is a directory");

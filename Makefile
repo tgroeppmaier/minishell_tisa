@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aminakov <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/02 18:22:10 by aminakov          #+#    #+#              #
-#    Updated: 2023/12/11 14:35:54 by aminakov         ###   ########.fr        #
+#    Updated: 2023/12/11 21:58:42 by tgroeppm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC +=	builtin_env.c \
 	builtin_echo.c \
 	builtin_pwd.c \
 	builtin_cd.c \
+	expand_exit_code.c \
 
 SRC +=	expand_quotes.c \
 	expand_variables.c \
