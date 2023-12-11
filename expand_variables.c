@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 20:32:47 by tgroeppm          #+#    #+#             */
-/*   Updated: 2023/12/11 13:10:37 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:39:34 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ int	skip_copy(int *i, int *k, char *str, char *expand)
 		if (str[*i] == '$' && !in_single_quotes(str, *i))
 		{
 			(*i)++;
+			if (!str[*i])
+			{
+				expand[*k] = '$';
+				(*k)++;
+				return (1);
+			}
 			if (str[*i] && (str[*i] == '"' || str[*i] == '\''))
 				expand[*k] = str[*i];
 			else
@@ -72,7 +78,7 @@ void	expand_str(t_tree *tree, char *str, char *expand, int len)
 
 	i = 0;
 	k = 0;
-	while (k <= len && str[i])
+	while (k < len && str[i])
 	{
 		if (skip_copy(&i, &k, str, expand) == 1)
 			continue ;
