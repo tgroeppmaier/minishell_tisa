@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:04:34 by aminakov          #+#    #+#             */
-/*   Updated: 2023/11/29 17:32:34 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/11 13:36:03 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ because need to return the result of the right one */
 		ft_printf_fd(2, "child finished execution with [%d]\n\n", res);
 return (res);*/
 
-int	wait_for_all_return_chosen(int childchosen)
+/* int	wait_for_all_return_chosen(int childchosen)
 {
 	int	child;
 	int	wstatus;
@@ -79,6 +79,34 @@ int	wait_for_all_return_chosen(int childchosen)
 		ft_printf_fd(2, "in parent process returning [%d]\n\n", res);
 	return (res);
 }
+ */
+
+int	wait_for_all_return_chosen(int childchosen)
+{
+	int	child;
+	int	wstatus;
+	int	res;
+
+	res = 0;
+	while (1)
+	{
+		child = waitpid(-1, &wstatus, 0);
+		if (child == -1 || errno == ECHILD)
+			break ;
+		if (child == childchosen)
+			res = wstatus;
+		if (DEBUG_MODE)
+			ft_printf_fd(2, "child [%d] ex w [%d]\n\n", child, wstatus);
+		if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGQUIT)
+		{
+			write(2, "Quit (core dumped)\n", 19);
+			exit(131);
+		}
+	}
+	if (DEBUG_MODE)
+		ft_printf_fd(2, "in parent process returning [%d]\n\n", res);
+	return (res);
+}
 
 int	close_pipes_return(int pipe_fd[2], int res, char const *msg)
 {
@@ -91,8 +119,9 @@ int	close_pipes_return(int pipe_fd[2], int res, char const *msg)
 
 int	ft_dopipe_in_childleft_exit(t_tree *tree, int pipe_fd[2])
 {
-	int		res;
+	int	res;
 
+	signal(SIGINT, SIG_DFL);
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
@@ -110,8 +139,9 @@ int	ft_dopipe_in_childleft_exit(t_tree *tree, int pipe_fd[2])
 
 int	ft_dopipe_in_childright_exit(t_tree *tree, int pipe_fd[2])
 {
-	int		res;
+	int	res;
 
+	signal(SIGINT, SIG_DFL);
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);

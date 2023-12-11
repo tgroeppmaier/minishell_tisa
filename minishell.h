@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 22:17:03 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/11 09:24:39 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ So it is not clear which tree should correspond to the data.
 Hence, I deleted the pointer to tree. Hence, we should always prototype
 functions to take tree as an argument, not data.*/
 
-extern volatile sig_atomic_t sigint_received;
+extern volatile sig_atomic_t g_sigint_received;
 
 typedef struct s_data
 {

@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 22:19:11 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/11 10:27:41 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int	do_redir_inin_smallersmaller(char const *endword, t_tree *tree)
 		return (close_pipes_return(pipe_fd, 2, "fork problem heredoc"));
 	if (0 == child)
 	{
-		signal(SIGQUIT, handle_sigquit);
-		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		// signal(SIGINT, SIG_DFL);
 		close(pipe_fd[0]);
 		while (1)
 			do_in_loop_heredoc_exit(tree, endword, pipe_fd[1]);

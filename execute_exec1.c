@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 22:04:59 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/11 13:17:51 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 //t_tree	*tree_ptr;
 int	ft_exec_exec(t_tree *tree)
 {
-	int		child;
+	int	child;
 
 	if (NULL == tree || EXEC != tree->node)
 		return (print_error(1, "tr0|ft_exec_exec with not EXEC node"));
 	if (!tree->list && is_str_empty(tree->cmd, cr_sgm(tree->beg, tree->end)))
 		return (print_error(0, ""));
-	if (!tree->list && \
-			!is_str_empty(tree->cmd, cr_sgm(tree->beg, tree->end)))
+	if (!tree->list &&
+		!is_str_empty(tree->cmd, cr_sgm(tree->beg, tree->end)))
 		return (print_error(2, "NULL list in ft_exec_exec"));
 	if (0 == tree->do_in_child_process)
 		return (ft_exec_exec_no_new_process(tree));
@@ -44,7 +44,7 @@ int	do_in_child_exec_exit(t_tree *tree)
 	int		res;
 
 	if (NULL == tree)
-		exit (print_error(1, "wrong call to do_in_child_exec_exit"));
+		exit(print_error(1, "wrong call to do_in_child_exec_exit"));
 	res = 0;
 	if (0 == do_redirections(tree))
 	{

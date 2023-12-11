@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:10:04 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 21:38:21 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:47:21 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,13 @@ int	show_prompt_readline(t_data *data)
 		if (str == NULL)
 		{
 			write(1, "exit\n", 5);
-			break ; // Exit the loop, which exits the shell
+			break ;
 		}
-		if (sigint_received) // reset previously received signal
+		if (g_sigint_received)
 		{
-			sigint_received = 0;
+			g_sigint_received = 0;
 			continue ;
 		}
-		// if (sigint_received == SIGQUIT_RECEIVED)
-		// {
-		// 	write(1, "Quit (core dumped)\n", 19);
-		// 	exit(EXIT_FAILURE); // Or handle as required
-		// }
 		if (0 != parse_all(str) && 1 == do_free_str(&str))
 			continue ;
 		if (0 == is_str_empty(str, cr_sgm(0, ft_strlen(str))))

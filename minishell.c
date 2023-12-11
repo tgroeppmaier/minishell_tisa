@@ -6,14 +6,14 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:25:34 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 21:43:21 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/11 09:29:40 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 
-volatile sig_atomic_t sigint_received = 0;
+volatile sig_atomic_t	g_sigint_received = 0;
 
 int	main(int argc, char *argv[], char *envp[])
 {
