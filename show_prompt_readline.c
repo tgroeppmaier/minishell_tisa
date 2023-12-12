@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:10:04 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 13:11:17 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:35:44 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,10 @@ int	show_prompt_readline(t_data *data)
 		if (g_sigint_received)
 		{
 			g_sigint_received = 0;
-			write(1, "\n", 1);
 			rl_done = 1;
-			continue ;
 		}
-		rl_done = 0;
+		else
+			rl_done = 0;
 		str = readline(welcome_msg);
 		if (NULL == str)
 		{
@@ -105,47 +104,6 @@ int	show_prompt_readline(t_data *data)
 	}
 	return (clear_history_return_exit_code(data->exit_code));
 }
-
-// int	show_prompt_readline(t_data *data)
-// {
-// 	char	*str;
-// 	t_tree	*tree;
-// 	int		bene;
-// 	char	welcome_msg[100];
-
-// 	set_base_msg_tree_bene(welcome_msg, sizeof(welcome_msg), &tree, &bene);
-// 	while (bene++)
-// 	{
-// 		set_welcome_msg(welcome_msg, sizeof(welcome_msg), bene - 1);
-// 		if (g_sigint_received)
-// 		{
-// 			g_sigint_received = 0;
-// 			rl_done = 1; // Make readline return immediately
-// 			continue ;
-// 		}
-// 		rl_done = 0; // Reset rl_done before the next call to readline
-// 		str = readline(welcome_msg);
-// 		if (NULL == str)
-// 		{
-// 			write(1, "exit\n", 5);
-// 			break ;
-// 		}
-// 		if (0 != parse_all(str) && 1 == do_free_str(&str))
-// 			continue ;
-// 		if (0 == is_str_empty(str, cr_sgm(0, ft_strlen(str))))
-// 			add_history(str);
-// 		if (DEBUG_MODE)
-// 			ft_printf("You entered [%s]\n", str);
-// 		create_display_free_tree(&tree, str, 1 + 2 * DEBUG_MODE, data);
-// 		if (0 == ft_strncmp(str, "exit", ft_strlen(str) + 1))
-// 			bene = 0;
-// 		else
-// 			treat_heredocs_execute_tree(tree);
-// 		free_tree(&tree);
-// 		do_free_str(&str);
-// 	}
-// 	return (clear_history_return_exit_code(data->exit_code));
-// }
 
 int	clear_history_return_exit_code(int exit_code)
 {
