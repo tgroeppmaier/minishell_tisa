@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:55:48 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 15:15:33 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:14:18 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ int	redirect_heredocs_to_pipes(t_tree *tree)
 		if (ptr->is_special_tkn && ptr->next && !ft_strncmp(ptr->word, "<<", 3))
 		{
 			remove_outer_quotes(&ptr->next->word);
-			res = do_redir_inin_part1_write_to_pipe(ptr->next->word, \
-							ptr->is_special_tkn - 1, tree);
+			res = do_redir_inin_part1_write_to_pipe(ptr->next->word,
+													ptr->is_special_tkn - 1,
+													tree);
 			if (res)
 				return (res);
 			ptr = ptr->next->next;
@@ -70,10 +71,8 @@ int	redirect_heredocs_to_pipes(t_tree *tree)
 	return (0);
 }
 
-
-
-int	do_redir_inin_part1_write_to_pipe(char const *endword, int pipe_num, \
-								t_tree *tree)
+int	do_redir_inin_part1_write_to_pipe(char const *endword, int pipe_num,
+		t_tree *tree)
 {
 	if (!tree)
 		return (print_error(-1, "NULL in do_redir_inin"));
@@ -81,88 +80,90 @@ int	do_redir_inin_part1_write_to_pipe(char const *endword, int pipe_num, \
 		return (print_error(-2, "num of pipe is too big"));
 	// signal(SIGINT, handle_sigint_eof);
 	while (1)
-		if (0 >= do_in_loop_heredoc(endword, \
-				tree->head->heredoc_pipes[pipe_num][1]))
+	{
+		// if (g_sigint_received)
+		// {
+		// 	g_sigint_received = 0;
+		// 	// write(STDIN_FILENO, "\x04", 1);
+		// 	// write(STDOUT_FILENO, "\n", 1);
+		// 	break ;
+		// }
+		if (0 >= do_in_loop_heredoc(endword,
+									tree->head->heredoc_pipes[pipe_num][1]))
 			break ;
+	}
+	// signal(SIGINT, handle_sigint);
 	if (-1 == close(tree->head->heredoc_pipes[pipe_num][1]))
 		print_error(1, "error closing writing end of heredoc pipe");
 	return (0);
 }
 
-volatile sig_atomic_t g_sigint_received = 0;
-
-void handle_sigint(int sig_num)
-{
-    (void)sig_num;
-    g_sigint_received = 1;
-}
-
-int	do_in_loop_heredoc(char const *endword, int pipe_fd_out)
-{
-    char	*curr_line;
-
-    signal(SIGINT, handle_sigint);
-    curr_line = NULL;
-    while (1)
-    {
-        if (g_sigint_received)
-        {
-            g_sigint_received = 0;
-            break;
-        }
-        if (1 == READLINE_MODE)
-            curr_line = readline("heredoc > ");
-        else if (0 == READLINE_MODE)
-        {
-            ft_printf_fd(2, "heredoc > ", getpid(), getppid());
-            curr_line = get_next_line(STDIN_FILENO);
-        }
-        else
-            return (print_error(-2, "Nothing else is possible in do_in_loop"));
-        if (NULL == curr_line)
-            return (print_error(-1, "NULL curr_line in do_in_loop. Ctrl+d mptst?"));
-        if (0 == ft_strncmp(curr_line, endword, ft_strlen(endword)) && \
-                ft_strlen(curr_line) + READLINE_MODE == ft_strlen(endword) + 1)
-            do_free_str(&curr_line);
-        else
-        {
-            if (-1 == write(pipe_fd_out, curr_line, ft_strlen(curr_line)))
-                print_error(-3, "write problem: do in_loop");
-            do_free_str(&curr_line);
-            return (1);
-        }
-    }
-    return (0);
-}
-
 /* negative for error, 0 for exit from heredoc, 1 for continuing */
 /* does not matter if we write "heredoc" welcome string to stdout or stderr,
 because other redirections have not yet been performed? */
+int	do_in_loop_heredoc(char const *endword, int pipe_fd_out)
+{
+	char	*curr_line;
+
+	curr_line = NULL;
+	if (1 == READLINE_MODE)
+		curr_line = readline("heredoc > ");
+	else if (0 == READLINE_MODE)
+	{
+		ft_printf_fd(2, "heredoc > ", getpid(), getppid());
+		curr_line = get_next_line(STDIN_FILENO);
+	}
+	else
+		return (print_error(-2, "Nothing else is possible in do_in_loop"));
+	if (NULL == curr_line)
+		return (print_error(-1, "NULL curr_line in do_in_loop. Ctrl+d mptst?"));
+	if (0 == ft_strncmp(curr_line, endword, ft_strlen(endword)) &&
+		ft_strlen(curr_line) + READLINE_MODE == ft_strlen(endword) + 1)
+		do_free_str(&curr_line);
+	else
+	{
+		if (-1 == write(pipe_fd_out, curr_line, ft_strlen(curr_line)))
+			print_error(-3, "write problem: do in loop");
+		do_free_str(&curr_line);
+		return (1);
+	}
+	return (0);
+}
+
 // int	do_in_loop_heredoc(char const *endword, int pipe_fd_out)
 // {
-// 	char	*curr_line;
-
+// 	char *curr_line
+// 		signal(SIGINT, handle_sigint);
 // 	curr_line = NULL;
-// 	if (1 == READLINE_MODE)
-// 		curr_line = readline("heredoc > ");
-// 	else if (0 == READLINE_MODE)
+// 	while (1)
 // 	{
-// 		ft_printf_fd(2, "heredoc > ", getpid(), getppid());
-// 		curr_line = get_next_line(STDIN_FILENO);
-// 	}
-// 	else
-// 		return (print_error(-2, "Nothing else is possible in do_in_loop"));
-// 	if (NULL == curr_line)
-// 		return (print_error(-1, "NULL curr_line in do_in_loop. Ctrl+d mptst?"));
-// 	if (0 == ft_strncmp(curr_line, endword, ft_strlen(endword)) && \
-// 			ft_strlen(curr_line) + READLINE_MODE == ft_strlen(endword) + 1)
-// 		do_free_str(&curr_line);
-// 	else
-// 	{
-// 		if (-1 == write(pipe_fd_out, curr_line, ft_strlen(curr_line)))
-// 			print_error(-3, "write problem: do in loop");
-// 		do_free_str(&curr_line);
-// 		return (1);
+// 		if (g_sigint_received)
+// 		{
+// 			g_sigint_received = 0;
+// 			break ;
+// 		}
+// 		if (1 == READLINE_MODE)
+// 			curr_line = readline("heredoc > ");
+// 		else if (0 == READLINE_MODE)
+// 		{
+// 			ft_printf_fd(2, "heredoc > ", getpid(), getppid());
+// 			curr_line = get_next_line(STDIN_FILENO);
+// 		}
+// 		else
+// 			return ((print_error(-2));
+//          if (NULL == curr_line)
+//              return (print_error(-1, "NULL curr_line in do_in_loop. Ctrl+d mptst?"));
+//          if (0 == ft_strncmp(curr_line, endword, ft_strlen(endword)) && \
+//                  ft_strlen(curr_line) + READLINE_MODE == ft_strlen(endword	//
+// 			+ 1)
+//              do_free_str(&curr_line);
+//          else
+//          {
+// 				if (-1 == write(pipe_fd_out, curr_line, ft_strlen(curr_line)))
+// 					print_error(-3, "write problem: do in_loop");
+// 				do_free_str(&curr_line);
+// 				return (1);
+//          }
 // 	}
 // 	return (0);
 // }
