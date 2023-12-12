@@ -6,7 +6,7 @@
 #    By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/02 18:22:10 by aminakov          #+#    #+#              #
-#    Updated: 2023/12/11 21:58:42 by tgroeppm         ###   ########.fr        #
+#    Updated: 2023/12/12 11:57:32 by tgroeppm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ SHORTNAMELIBFT = -lft
 #  So, in readline_mode with green the problem persists, without green_mode not.
 # The problem persisted even after increasing BUFFER_SIZE in libft
 
-CC = gcc
+CC = cc
 CC += -D DEBUG_MODE=0
 CC += -D READLINE_MODE=1
 CC += -D RESET_PWD_MODE=1
