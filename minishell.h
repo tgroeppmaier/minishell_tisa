@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 21:54:40 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:33:32 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,13 @@ typedef struct s_tree
 	int				is_builtin;
 	t_node			node;
 }	t_tree;
+
+typedef struct {
+    const char *str;
+    char *new_str;
+    int *j;
+    char *exit_code_str;
+} CreateNewStrArgs;
 
 // print_error.c
 int		print_error(int res, char const *str);
