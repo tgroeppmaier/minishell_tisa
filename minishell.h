@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 12:33:32 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:04:53 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,12 +157,13 @@ typedef struct s_tree
 	t_node			node;
 }	t_tree;
 
-typedef struct {
-    const char *str;
-    char *new_str;
-    int *j;
-    char *exit_code_str;
-} CreateNewStrArgs;
+typedef struct s_CreateNewStrArgs
+{
+	const char		*str;
+	char			*new_str;
+	int				*j;
+	char			*exit_code_str;
+}	t_CreateNewStrArgs;
 
 // print_error.c
 int		print_error(int res, char const *str);
@@ -490,5 +491,6 @@ int		get_expand_len(t_tree *tree, char *str, int i, int len);
 
 // expand_exit_code.c
 void	expand_exit(t_tree *tree, int exit_code);
+char	*expand_exit_code(const char *str, char *exit_code_str, int i);
 
 #endif // MINISHELL_H
