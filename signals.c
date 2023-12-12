@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 13:16:15 by tgroeppm          #+#    #+#             */
-/*   Updated: 2023/12/12 17:02:33 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 21:33:36 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,11 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void handle_sigint_eof(int sig) {
-  (void)sig;
-  g_sigint_received = 1;
-//   write(STDIN_FILENO, "\x04", 1);
-//   write(STDOUT_FILENO, "\n", 1);
-
-  // Reset the readline library state
-  rl_on_new_line();
-  rl_replace_line("", 0);
-  rl_redisplay();
+void	handle_sigint_eof(int sig)
+{
+	(void)sig;
+	g_sigint_received = 1;
 }
-
 
 // void	handle_sigquit(int sig)
 // {
