@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 13:04:53 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:22:56 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,6 +417,7 @@ void	handle_sigtstp(int n);
 void	handle_sigcont(int n);
 void	handle_sigint(int n);
 void	signals_treating(t_data *data);
+void 	handle_sigint_eof(int sig);
 
 // BUILTINS
 //////////////////////////////////////////////

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections2_initial_heredoc_treatment.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:55:48 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 11:54:15 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:27:35 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	do_redir_inin_part1_write_to_pipe(char const *endword, int pipe_num, \
 		return (print_error(-1, "NULL in do_redir_inin"));
 	if (pipe_num >= tree->head->heredoc_cnt)
 		return (print_error(-2, "num of pipe is too big"));
+	// signal(SIGINT, handle_sigint_eof);
 	while (1)
 		if (0 >= do_in_loop_heredoc(endword, \
 				tree->head->heredoc_pipes[pipe_num][1]))
