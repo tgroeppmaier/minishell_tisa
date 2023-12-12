@@ -6,7 +6,7 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:10:04 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 08:53:28 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 09:09:36 by tgroeppm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	show_prompt_readline(t_data *data)
 		if (g_sigint_received)
 		{
 			g_sigint_received = 0;
+			write(1, "\n", 1);
 			rl_done = 1;
 			continue ;
 		}
