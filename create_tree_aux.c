@@ -6,7 +6,7 @@
 /*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 11:40:25 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 09:26:04 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/13 09:27:56 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	prefill_node(t_tree *tree, char *str, t_sgm sgm, t_data *data)
 	tree->do_in_child_process = 1;
 	tree->heredoc_cnt = 0;
 	tree->heredoc_pipes = NULL;
+	tree->gpid = -1;
 	return ;
 }
 
@@ -58,6 +59,7 @@ void	free_tree(t_tree **tree)
 	(*tree)->level = 0;
 	(*tree)->node = 0;
 	(*tree)->do_in_child_process = 0;
+	(*tree)->gpid = 0;
 	i = -1;
 	while ((*tree)->heredoc_pipes && ++i < (*tree)->heredoc_cnt)
 		close((*tree)->heredoc_pipes[i][0]);

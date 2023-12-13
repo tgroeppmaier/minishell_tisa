@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+         #
+#    By: aminakov <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/02 18:22:10 by aminakov          #+#    #+#              #
-#    Updated: 2023/12/12 11:57:32 by tgroeppm         ###   ########.fr        #
+#    Updated: 2023/12/13 13:23:07 by aminakov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC = 	minishell.c \
 	parsing_brackets_2.c      last_parsing_brackets_2.c \
 	show_prompt.c \
 	show_prompt_readline.c \
+	show_prompt_readline_utils.c \
 	create_tree.c \
 	create_tree_aux.c \
 	create_tree_find_sep_or_brackets.c \
@@ -84,7 +85,8 @@ CC = cc
 CC += -D DEBUG_MODE=0
 CC += -D READLINE_MODE=1
 CC += -D RESET_PWD_MODE=1
-CC += -D GREEN_MODE=1
+CC += -D GREEN_MODE=0
+CC += -D GPID_MODE=0
 CFLAGS += -Wall -Wextra -Wpedantic -Werror -g
 LIBFLAGS += -lft -I$(LIBFTDIR) -L$(LIBFTDIR)
 LIBFLAGS += -lreadline

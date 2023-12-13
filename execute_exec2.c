@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_exec2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 13:06:24 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:16:17 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,10 @@ int	ft_execute_cmd(char **vector_cmd, char *envp[])
 	path = vector_cmd[0];
 	vector_cmd[0] = ptr_last_slash + 1;
 	if (0 != access(path, F_OK))
-		return (redef_clear_in_exec(2, vector_cmd, path,
+		return (redef_clear_in_exec(2, vector_cmd, path, \
 				"No such file or directory"));
 	else if (0 == access(path, F_OK) && 0 != access(path, X_OK))
-		return (redef_clear_in_exec(126, vector_cmd, path,
+		return (redef_clear_in_exec(126, vector_cmd, path, \
 				"permission denied"));
 	execve(path, vector_cmd, envp);
 	vector_cmd[0] = path;

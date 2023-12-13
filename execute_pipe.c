@@ -6,7 +6,7 @@
 /*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:04:34 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 14:25:53 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/13 10:02:58 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	ft_exec_pipe(t_tree *tree)
 		return (print_error(1, "wrong call to ft_exec_pipe"));
 	if (-1 == pipe(pipe_fd))
 		return (print_error(2, "problem opening pipe"));
-	child1 = fork();
+	child1 = do_fork_set_gpid(tree);
 	if (-1 == child1)
 	{
 		return (close_pipes_return(pipe_fd, 3, "problem with fork1"));
 	}
 	if (0 == child1)
 		return (ft_dopipe_in_childleft_exit(tree->left_child, pipe_fd));
-	child2 = fork();
+	child2 = do_fork_set_gpid(tree);
 	if (-1 == child2)
 		return (print_error(4, "problem with fork2"));
 	if (0 == child2)
@@ -52,7 +52,7 @@ int	ft_exec_pipe(t_tree *tree)
 	tree->data->exit_code = wait_for_all_return_chosen(child2);
 	return (tree->data->exit_code);
 }
-/* need to distinguish between the left and right process to finish,i
+/* need to distinguish between the left and right process to finish,
 because need to return the result of the right one */
 /*while ((-1 != waitpid(-1, &res, 0) || ECHILD != errno))
 	if (DEBUG_MODE)
@@ -104,7 +104,8 @@ int	ft_dopipe_in_childleft_exit(t_tree *tree, int pipe_fd[2])
 {
 	int		res;
 
-	signal(SIGINT, SIG_DFL);
+	if (0 == GPID_MODE)
+		signal(SIGINT, SIG_DFL);
 	if (-1 == close(pipe_fd[0]))
 		print_error(-1, "close in childleft failed");
 	dup2(pipe_fd[1], STDOUT_FILENO);
@@ -126,7 +127,8 @@ int	ft_dopipe_in_childright_exit(t_tree *tree, int pipe_fd[2])
 {
 	int		res;
 
-	signal(SIGINT, SIG_DFL);
+	if (0 == GPID_MODE)
+		signal(SIGINT, SIG_DFL);
 	if (-1 == close(pipe_fd[1]))
 		print_error(-1, "r:close pipe_fd[1]");
 	dup2(pipe_fd[0], STDIN_FILENO);

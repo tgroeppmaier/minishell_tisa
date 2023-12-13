@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections1_initial_heredoc_treatment.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:55:48 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 20:01:24 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/10 09:56:22 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 because children that have << does not expand to further children */
 /* Still, I rearranged it to work more orthodox:
 left child, node itslef, right child */
-/* This function is called in create_display_free_tree,
+/* This function is called in create_display_free_tree, 
 and it sets the number of << already there. No need to call for it again.
 It assigns a number in is_special_tkn for a heredoc (1, 2, ..., n)
 so that we know to which pipe redirect.
@@ -41,8 +41,8 @@ int	count_heredocs_in_tree(t_tree *tree, int *cnt)
 		node = tree->list;
 		while (node)
 		{
-			if (node->is_special_tkn && 0 == ft_strncmp(node->word, "<<",
-					ft_strlen("<<") + 1))
+			if (node->is_special_tkn && 0 == ft_strncmp(node->word, \
+						"<<", ft_strlen("<<") + 1))
 			{
 				++(*cnt);
 				node->is_special_tkn = *cnt;
@@ -69,7 +69,7 @@ int	create_and_open_pipes_for_heredocs(t_tree *tree)
 	res = 0;
 	if (0 == tree->heredoc_cnt)
 		return (0);
-	tree->heredoc_pipes = malloc(sizeof(int[2]) * tree->heredoc_cnt);
+	tree->heredoc_pipes = malloc(sizeof(int [2]) * tree->heredoc_cnt);
 	if (NULL == tree->heredoc_pipes)
 		return (print_error(-2, "failed malloc in crt pipes <<"));
 	cnt = -1;
@@ -100,8 +100,9 @@ int	print_pipes_that_were_created(t_tree *tree)
 	ft_printf_fd(2, "\n\nPipes:");
 	i = -1;
 	while (++i < tree->head->heredoc_cnt)
-		ft_printf_fd(2, "    pipe[%d]: r=%d;w=%d;\n", i,
-			tree->head->heredoc_pipes[i][0], tree->head->heredoc_pipes[i][1]);
+		ft_printf_fd(2, "    pipe[%d]: r=%d;w=%d;\n", i, \
+				tree->head->heredoc_pipes[i][0], \
+				tree->head->heredoc_pipes[i][1]);
 	ft_printf_fd(2, "\n\n");
 	return (0);
 }
@@ -109,8 +110,8 @@ int	print_pipes_that_were_created(t_tree *tree)
 // close except r for reading and w for writing
 /* call it with -1, -1 if you want to close pipes.
  This function should be called after the execution,
-because we do not know which heredocs were needed in the subtree.
-Besides, for instance in <<xxx && <<yyy, everything is done in one process.
+because we do not know which heredocs were needed in the subtree. 
+Besides, for instance in <<xxx && <<yyy, everything is done in one process. 
 So when should we close the pipes? Just before freeing everything? */
 int	close_all_heredoc_pipes_except(t_tree *tree, int r, int w)
 {

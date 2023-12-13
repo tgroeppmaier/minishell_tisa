@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:49:23 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 14:22:56 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:52:08 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// -D DEBUG_MODE=1 : 1-debug; 0-performance
+/* -D DEBUG_MODE=1 : 1-debug; 0-performance. 4 */
 # ifndef DEBUG_MODE
 #  define DEBUG_MODE 0
 # endif
@@ -40,6 +40,11 @@
 // 1 for restoring PWD, OLDPWD (like in zsh), 0 for not (like in bash)
 # ifndef RESTORE_PWD_MODE
 #  define RESTORE_PWD_MODE 0
+# endif
+
+// 1 for setting GPID (like in bash), 0 for playing with resetting signals
+# ifndef GPID_MODE
+#  define GPID_MODE 1
 # endif
 
 # include "libft.h"
@@ -138,6 +143,8 @@ typedef enum e_node {SEMICOLON, PIPE, ANDAND, OROR, BRACKETS, \
 			IN, ININ, OUT, OUTOUT, EXEC}	t_node;
 
 /* heredoc_pipes will exist only for the head of the tree */
+/* sigpid will only make sense for the head of the tree */
+/* data exists for all trees, even though it is the same data */
 typedef struct s_tree
 {
 	char			*cmd;
@@ -154,15 +161,16 @@ typedef struct s_tree
 	int				bene;
 	int				do_in_child_process;
 	int				is_builtin;
+	int				gpid;
 	t_node			node;
 }	t_tree;
 
 typedef struct s_CreateNewStrArgs
 {
-	const char		*str;
-	char			*new_str;
-	int				*j;
-	char			*exit_code_str;
+	const char	*str;
+	char		*new_str;
+	int			*j;
+	char		*exit_code_str;
 }	t_CreateNewStrArgs;
 
 // print_error.c
@@ -269,7 +277,11 @@ int		do_free_str(char **str);
 void	set_base_msg_tree_bene(char *base_msg, int size, \
 				t_tree **tree, int *bene);
 int		set_welcome_msg(char *welcome_msg, int size, int num);
+void	process_line(t_data *data, char *str, t_tree *tree, int *bene);
+//static void	check_for_sigint_received(t_data *data);
 int		show_prompt_readline(t_data *data);
+
+// show_prompt_readline_utils.c
 int		clear_history_return_exit_code(int exit_code);
 
 // CREATION OF THE TREE
@@ -342,6 +354,8 @@ t_list	*free_list_return_null(t_list **list);
 // execute_tree.c
 int		ft_execute_tree(t_tree *tree);
 int		treat_heredocs_execute_tree(t_tree *tree);
+int		do_fork_set_gpid(t_tree *tree);
+int		do_clean_and_exit(int res, t_tree *tree);
 
 // execute_pipe.c
 int		ft_exec_pipe(t_tree *tree);
@@ -351,10 +365,13 @@ int		ft_dopipe_in_childleft_exit(t_tree *tree, int pipe_fd[2]);
 int		ft_dopipe_in_childright_exit(t_tree *tree, int pipe_fd[2]);
 
 // execute_exec1.c
+int		set_signals(void);
+int		unset_signals(void);
+//int		create_child_and_setup_signals(t_tree *tree);
+//int		wait_for_child_and_restore_signals(t_tree *tree, int child);
 int		ft_exec_exec(t_tree *tree);
 int		do_in_child_exec_exit(t_tree *tree);
 int		restore_signals_in_children(void);
-int		do_clean_and_exit(int res, t_tree *tree);
 
 // execute_exec2.c
 int		ft_exec_exec_no_new_process(t_tree *tree);
@@ -412,12 +429,12 @@ int		do_redirections(t_tree *tree);
 // SIGNAL handling
 //////////////////////////////////////////////
 //--------------------------------------------------------
-// signals_obsolete.c
+// signals.c
 void	handle_sigtstp(int n);
 void	handle_sigcont(int n);
 void	handle_sigint(int n);
 void	signals_treating(t_data *data);
-void 	handle_sigint_eof(int sig);
+void	handle_sigint_eof(int sig);
 
 // BUILTINS
 //////////////////////////////////////////////
@@ -491,7 +508,12 @@ int		skip_count(int *i, int *len, char *str);
 int		get_expand_len(t_tree *tree, char *str, int i, int len);
 
 // expand_exit_code.c
-void	expand_exit(t_tree *tree, int exit_code);
+/* static int		calculate_new_len(const char *str, \
+				int i, char *exit_code_str); */
+// static void	create_new_str(t_CreateNewStrArgs args, int i);
+/* static char	*expand_exit_code_rest(const char *str, \
+				char *exit_code_str, int i); */
 char	*expand_exit_code(const char *str, char *exit_code_str, int i);
+void	expand_exit(t_tree *tree, int exit_code);
 
 #endif // MINISHELL_H

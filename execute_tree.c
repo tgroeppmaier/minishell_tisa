@@ -6,7 +6,7 @@
 /*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:04:34 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 13:11:12 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:47:45 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,45 @@ int	treat_heredocs_execute_tree(t_tree *tree)
 	expand_variables_all_tree(tree);
 	expand_quotes_all_tree(tree);
 	return (ft_execute_tree(tree));
+}
+
+/* we set tree->head->gpid to the pid of the first created child.
+all newly created children have their gpid equal to the pid of 
+that first child */
+int	do_fork_set_gpid(t_tree *tree)
+{
+	int	child;
+
+	if (NULL == tree)
+		return (print_error(-1, "wrong call to do_fork"));
+	child = fork();
+	if (-1 == child)
+		return (child);
+	if (0 == child)
+	{
+		if (GPID_MODE)
+		{
+			if (-1 == tree->head->gpid)
+			{
+				tree->head->gpid = getpid();
+			}
+			setpgid(getpid(), tree->head->gpid);
+		}
+	}
+	return (child);
+}
+
+/* should we close all heredoc pipes here? */
+/* in the end, this is done in free_tree */
+int	do_clean_and_exit(int res, t_tree *tree)
+{
+	t_tree	*tree_ptr;
+
+	if (NULL == tree)
+		return (print_error(-1, "NULL in do_clean_and_exit"));
+	do_free_str(&tree->cmd);
+	free_data_except_tree(tree->data);
+	tree_ptr = tree->head;
+	free_tree(&tree_ptr);
+	exit(res);
 }

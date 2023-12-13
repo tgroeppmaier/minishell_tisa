@@ -6,7 +6,7 @@
 /*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:10:04 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 13:38:54 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/12 16:33:42 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	show_prompt(t_data *data)
 			treat_heredocs_execute_tree(tree);
 		free_tree(&tree);
 		do_free_str(&str);
-		ft_printf_fd(2, "\n\n        exit_code is [%d]\n", data->exit_code);
 	}
 	return (data->exit_code);
 }

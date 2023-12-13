@@ -6,7 +6,7 @@
 /*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:40:19 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/10 18:12:28 by aminakov         ###   ########.fr       */
+/*   Updated: 2023/12/13 12:05:19 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_error(int res, char const *msg1, char const *msg2)
 	ft_printf_fd(STDERR_FILENO, "%s", msg1);
 	if (NULL != msg2 && '\0' != *msg2)
 		ft_printf_fd(STDERR_FILENO, ": [%s]", msg2);
-	ft_printf_fd(STDERR_FILENO, "\n\n");
+	ft_printf_fd(STDERR_FILENO, "\n");
 	if (res)
 		ft_printf_fd(STDERR_FILENO, RES);
 	return (res);

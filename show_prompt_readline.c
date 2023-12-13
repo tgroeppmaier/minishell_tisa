@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   show_prompt_readline.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 13:10:04 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 20:34:11 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:12:25 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_base_msg_tree_bene(char *base_msg, int size, t_tree **tree,
-		int *bene)
+void	set_base_msg_tree_bene(char *base_msg, int size, \
+				t_tree **tree, int *bene)
 {
 	char	*char_ptr;
 
@@ -41,8 +41,8 @@ int	set_welcome_msg(char *welcome_msg, int size, int num)
 	if (NULL == welcome_msg)
 		return (print_error(1, "NULL msg in set_welcome_msg"));
 	ft_strlcpy(last_symbs_of_shell_names, "a", 64);
-	pos = find_last_setsymb(welcome_msg, last_symbs_of_shell_names, cr_sgm(0,
-				ft_strlen(welcome_msg)));
+	pos = find_last_setsymb(welcome_msg, last_symbs_of_shell_names, \
+					cr_sgm(0, ft_strlen(welcome_msg)));
 	if (-1 == pos)
 		return (print_error(2, "wrong msg in set_welcome_msg"));
 	welcome_msg[pos + 1] = '\0';
@@ -76,6 +76,22 @@ void	process_line(t_data *data, char *str, t_tree *tree, int *bene)
 	do_free_str(&str);
 }
 
+static void	check_for_sigint_received(t_data *data)
+{
+	if (NULL == data)
+		return ;
+	if (g_sigint_received)
+	{
+		g_sigint_received = 0;
+		rl_done = 1;
+		data->exit_code = 128 + 2;
+	}
+	else
+	{
+		rl_done = 0;
+	}
+}
+
 int	show_prompt_readline(t_data *data)
 {
 	char	*str;
@@ -87,14 +103,9 @@ int	show_prompt_readline(t_data *data)
 	while (bene++)
 	{
 		set_welcome_msg(welcome_msg, sizeof(welcome_msg), bene - 1);
-		if (g_sigint_received)
-		{
-			g_sigint_received = 0;
-			rl_done = 1;
-		}
-		else
-			rl_done = 0;
+		check_for_sigint_received(data);
 		str = readline(welcome_msg);
+		check_for_sigint_received(data);
 		if (NULL == str)
 		{
 			write(1, "exit\n", 5);
@@ -103,10 +114,4 @@ int	show_prompt_readline(t_data *data)
 		process_line(data, str, tree, &bene);
 	}
 	return (clear_history_return_exit_code(data->exit_code));
-}
-
-int	clear_history_return_exit_code(int exit_code)
-{
-	clear_history();
-	return (exit_code);
 }

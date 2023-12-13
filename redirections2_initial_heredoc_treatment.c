@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections2_initial_heredoc_treatment.c          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:55:48 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/12 20:34:34 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/13 13:28:44 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	redirect_heredocs_to_pipes(t_tree *tree)
 		if (ptr->is_special_tkn && ptr->next && !ft_strncmp(ptr->word, "<<", 3))
 		{
 			remove_outer_quotes(&ptr->next->word);
-			res = do_redir_inin_part1_write_to_pipe(ptr->next->word,
-					ptr->is_special_tkn - 1, tree);
+			res = do_redir_inin_part1_write_to_pipe(ptr->next->word, \
+							ptr->is_special_tkn - 1, tree);
 			if (res)
 				return (res);
 			ptr = ptr->next->next;
@@ -70,8 +70,8 @@ int	redirect_heredocs_to_pipes(t_tree *tree)
 	return (0);
 }
 
-int	do_redir_inin_part1_write_to_pipe(char const *endword, int pipe_num,
-		t_tree *tree)
+int	do_redir_inin_part1_write_to_pipe(char const *endword, int pipe_num, \
+								t_tree *tree)
 {
 	if (!tree)
 		return (print_error(-1, "NULL in do_redir_inin"));
@@ -84,9 +84,10 @@ int	do_redir_inin_part1_write_to_pipe(char const *endword, int pipe_num,
 		if (g_sigint_received)
 		{
 			g_sigint_received = 0;
+			tree->data->exit_code = 128 + 2;
 			break ;
 		}
-		if (0 >= do_in_loop_heredoc(endword,
+		if (0 >= do_in_loop_heredoc(endword, \
 				tree->head->heredoc_pipes[pipe_num][1]))
 			break ;
 	}
@@ -114,9 +115,9 @@ int	do_in_loop_heredoc(char const *endword, int pipe_fd_out)
 	else
 		return (print_error(-2, "Nothing else is possible in do_in_loop"));
 	if (NULL == curr_line)
-		return (print_error(-1, "NULL curr_line in do_in_loop. Ctrl+d mptst?"));
-	if (0 == ft_strncmp(curr_line, endword, ft_strlen(endword))
-		&& ft_strlen(curr_line) + READLINE_MODE == ft_strlen(endword) + 1)
+		return (print_error(0, "NULL curr_line in do_in_loop. Ctrl+d mptst?"));
+	if (0 == ft_strncmp(curr_line, endword, ft_strlen(endword)) && \
+			ft_strlen(curr_line) + READLINE_MODE == ft_strlen(endword) + 1)
 		do_free_str(&curr_line);
 	else
 	{

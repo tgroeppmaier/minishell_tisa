@@ -6,14 +6,14 @@
 /*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 21:48:15 by tgroeppm          #+#    #+#             */
-/*   Updated: 2023/12/12 13:01:18 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:19:32 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 
-int	calculate_new_len(const char *str, int i, char *exit_code_str)
+/*static int	calculate_new_len(const char *str, int i, char *exit_code_str)
 {
 	if (!str[i])
 		return (0);
@@ -21,9 +21,9 @@ int	calculate_new_len(const char *str, int i, char *exit_code_str)
 		return (ft_strlen(exit_code_str) + calculate_new_len(str, i + 2,
 				exit_code_str));
 	return (1 + calculate_new_len(str, i + 1, exit_code_str));
-}
+}*/
 
-void	create_new_str(t_CreateNewStrArgs args, int i)
+/*static void	create_new_str(t_CreateNewStrArgs args, int i)
 {
 	if (!args.str[i])
 	{
@@ -41,7 +41,7 @@ void	create_new_str(t_CreateNewStrArgs args, int i)
 	}
 	args.new_str[(*args.j)++] = args.str[i];
 	create_new_str(args, i + 1);
-}
+}*/
 
 // char	*expand_exit_code(const char *str, char *exit_code_str, int i)
 // {
@@ -75,7 +75,7 @@ void	create_new_str(t_CreateNewStrArgs args, int i)
 // 	}
 // }
 
-char	*expand_exit_code_rest(const char *str, char *exit_code_str, int i)
+static char	*expand_exit_code_rest(const char *str, char *exit_code_str, int i)
 {
 	char	*rest;
 	size_t	rest_len;
@@ -118,11 +118,20 @@ void	expand_exit(t_tree *tree, int exit_code)
 {
 	t_list	*current;
 	char	exit_code_str[12];
+	char	*str_ptr;
 	char	*expanded;
 
 	if (!tree)
 		return ;
 	sprintf(exit_code_str, "%d", exit_code);
+	str_ptr = ft_itoa(exit_code);
+	if (NULL == str_ptr)
+	{
+		print_error(1, "failed ft_itoa in exit_code expansion");
+		return ;
+	}
+	ft_strlcpy(exit_code_str, str_ptr, ft_strlen(str_ptr) + 1);
+	do_free_str(&str_ptr);
 	current = tree->list;
 	while (current)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgroeppm <tgroeppm@student.42prague.com    +#+  +:+       +#+        */
+/*   By: aminakov <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:25:34 by aminakov          #+#    #+#             */
-/*   Updated: 2023/12/11 14:57:36 by tgroeppm         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:23:41 by aminakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@ int	main(int argc, char *argv[], char *envp[])
 	t_data			data;
 	int				res_prompt;
 
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	if (0 == GPID_MODE)
+	{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGCONT, SIG_IGN);
+	}
 	(void)argv;
 	if (1 != argc)
 		return (print_error(1, "no arguments are allowed"));
